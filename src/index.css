@@ -1,0 +1,26 @@
+/* List Group Component */
+li.ListGroup.active {
+    color: red;
+}
+
+li.ListGroup:hover {
+    cursor: pointer;
+}
+
+
+/* Alert Component */
+div.Alert{
+    font-size: 30px;
+    background-color: rgb(136, 60, 60);
+    color: white;
+    padding: 10px;
+}
+
+/* Button Component */
+button.Button{
+    background-color: black;
+    border-radius: 5px;
+    border-color: aqua;
+    color: white;
+    cursor: pointer;
+}
