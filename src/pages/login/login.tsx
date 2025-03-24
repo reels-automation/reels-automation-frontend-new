@@ -11,8 +11,6 @@ const Login = () => {
       const response = await loginPost("/login", username, password);
       console.log("Login success:", response);
 
-      // You can store the token or redirect the user to a different page on success
-
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -21,7 +19,6 @@ const Login = () => {
   return (
     <Fragment>
       <Navbar />
-      <h1>Página para loguearse</h1>
       <LoginForm onSubmit={handleLogin} />
     </Fragment>
   );

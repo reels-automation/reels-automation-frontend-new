@@ -1,5 +1,6 @@
 import { Fragment } from "react/jsx-runtime";
 import Navbar from "../../components/navbar/navbar";
+import { useLocation } from "react-router-dom";
 // import { ReactNode } from "react";
 
 // interface HomeProps{
@@ -7,6 +8,7 @@ import Navbar from "../../components/navbar/navbar";
 // }
 
 const Home = () => {
+
   return (
     <Fragment>
 
