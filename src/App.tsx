@@ -3,7 +3,9 @@ import RoutesManager from "./routes";
 
 function App() {
   return (
-    <RoutesManager />
+    // <Auth>
+      <RoutesManager />
+    // </Auth>
   );
 }
 

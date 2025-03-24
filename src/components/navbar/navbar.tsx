@@ -1,6 +1,6 @@
 function Navbar() {
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="bg-gray-200 border-gray-200 dark:bg-gray-900">
       <div className="flex items-center justify-between p-4 mx-auto">
         
         {/* Logo */}

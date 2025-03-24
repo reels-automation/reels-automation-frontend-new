@@ -9,6 +9,7 @@ const Register = () => {
     try {
       const response = await registerPost("/register", username, email, password);
       console.log("Registration success:", response);
+
     } catch (error) {
       console.error("Registration failed:", error);
     }
@@ -16,8 +17,10 @@ const Register = () => {
 
   return (
     <Fragment>
+
       <Navbar />
       <RegisterForm onSubmit={handleRegister} />
+      
     </Fragment>
   );
 };
