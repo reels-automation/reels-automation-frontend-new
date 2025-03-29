@@ -14,5 +14,6 @@ export const registerPost = async (route: string, username: string, email: strin
     }
 
     const data = await response.json();
+    localStorage.setItem("authToken", data["access_token"])
     return data;
 };
