@@ -1,6 +1,6 @@
 import React from 'react';
-import { UserProfileHeader } from './components/userProfileHeader';
-import { VideoSection } from './components/videoSection';
+import { UserProfileHeader } from './components/UserProfileHeader';
+import { VideoSection } from './components/VideoSection';
 
 const UserProfile = () => {
     const userProfileData = {

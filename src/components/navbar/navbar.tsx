@@ -18,18 +18,24 @@ function Navbar() {
         </NavbarLogo>
 
         <NavbarButtonsContainer
-          start={[
+          start={isLoggedIn ? 
+            [
+              <NavbarButton key="create_video" url="/create-video">Create reel de homero simpson pene magico</NavbarButton>,
+            ]:
+            [
+
           ]}
           center={[
           ]}
           end={
 
-            isLoggedIn ? [<button
-              onClick={logout}
-              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
-            >
+            isLoggedIn ? 
+            [
+            <NavbarButton key="logout" url="/login" onClick={() => logout()} 
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700" >
               Logout
-            </button>] : //Si esta logeado nada. Sino mostramos el resto.
+            </NavbarButton>
+            ]:
             [
             <NavbarButton key="login" url="/login">Sign in</NavbarButton>,
             <NavbarButton key="register" url="/register">Sign up</NavbarButton>

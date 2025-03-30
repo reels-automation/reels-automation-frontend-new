@@ -1,83 +1,127 @@
 import { useState } from "react";
+import { InputVideo } from "./components/InputVideo";
+import { SelectVideo } from "./components/SelectVideo";
+import { SliderVideo } from "./components/SliderVideo";
+import { TextBoxVideo } from "./components/TextBoxVideo";
+import { createVideo } from "../../fetchs/create-video/createVideo";
 
-const characters = ["Homero Simpson", "Otro Personaje"];
+const characters = ["Homero Simpson"];
 const voices = ["es-ES-XimenaNeural", "es-MX-JorgeNeural"];
-const pthVoices = ["HOMERO SIMPSON LATINO", "OTRA VOZ"];
-const gameplays = ["", "Gameplay 1", "Gameplay 2"];
-
-type FormData = {
-  tema: string;
-  personaje: string;
-  script: string;
-  tts_audio_name: string;
-  author: string;
-  pitch: number;
-  tts_voice: string;
-  tts_rate: string;
-  pth_voice: string;
-  gameplay_name: string;
-};
-
+const pthVoices = ["HOMERO SIMPSON LATINO"];
+const gameplays = ["subway2.mp4", "subway3.mp4"];
+const accounts = ["aprendiendo.con.personajes"]
 export default function VideoSubmissionForm() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     tema: "",
     personaje: characters[0],
     script: "",
     tts_audio_name: "",
+    tts_audio_bucket: "",
+    subtitles_name: "",
+    subtitles_bucket: "",
     author: "",
     pitch: 0,
     tts_voice: voices[0],
-    tts_rate: "0",
+    tts_rate: 0,
     pth_voice: pthVoices[0],
     gameplay_name: gameplays[0],
+    instagram_account: "aprendiendo.con.personajes"
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, pitch: Number(e.target.value) });
+  const handlePitchSliderChange = (value: number) => {
+    setFormData({ ...formData, pitch: value });
+  };
+
+  const handleTtsRateSliderChange = (value: number) => {
+    setFormData({ ...formData, tts_rate: value });
   };
 
   const handleSubmit = () => {
+    createVideo(formData)
     console.log("Submitting:", formData);
-    // Aquí harías el POST request
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px", backgroundColor: "#fff" }}>
-      <h2 style={{ fontSize: "1.2rem", marginBottom: "10px" }}>Publicar Video</h2>
-      <input type="text" name="tema" placeholder="Tema" value={formData.tema} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }} />
-      <select name="personaje" value={formData.personaje} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }}>
-        {characters.map((char) => (
-          <option key={char} value={char}>{char}</option>
-        ))}
-      </select>
-      <input type="text" name="script" placeholder="Script" value={formData.script} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }} />
-      <input type="text" name="tts_audio_name" placeholder="TTS Audio" value={formData.tts_audio_name} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }} />
-      <input type="text" name="author" placeholder="Autor" value={formData.author} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }} />
-      <div style={{ marginBottom: "10px" }}>
-        <label>Pitch</label>
-        <input type="range" min="-10" max="10" step="1" value={formData.pitch} onChange={handleSliderChange} style={{ width: "100%" }} />
+    <div className="min-h-screen bg-gray-900 flex justify-center items-center">
+      <div className="max-w-lg w-full bg-gray-800 rounded-lg shadow-md p-6 space-y-4">
+        <h2 className="text-xl font-semibold text-gray-100">Publicar Video</h2>
+        <InputVideo
+          value={formData.tema}
+          onChange={(value) => setFormData({ ...formData, tema: value })}
+          placeholder="Tema"
+          name="tema"
+        />
+        <SelectVideo
+          value={formData.personaje}
+          onChange={(value) => setFormData({ ...formData, personaje: value })}
+          options={characters}
+          name="personaje"
+        />
+        <TextBoxVideo
+          value={formData.script}
+          onChange={(value) => setFormData({ ...formData, script: value })}
+          placeholder="Escribe el script aquí..."
+          name="script"
+        />
+        <InputVideo
+          value={formData.tts_audio_name}
+          onChange={(value) => setFormData({ ...formData, tts_audio_name: value })}
+          placeholder="TTS Audio"
+          name="tts_audio_name"
+        />
+        <InputVideo
+          value={formData.author}
+          onChange={(value) => setFormData({ ...formData, author: value })}
+          placeholder="Autor"
+          name="author"
+        />
+        <SliderVideo
+          value={formData.pitch}
+          onChange={handlePitchSliderChange}
+          min={-10}
+          max={10}
+          step={1}
+          label="Pitch"
+        />
+        <SliderVideo
+          value={formData.tts_rate}
+          onChange={handleTtsRateSliderChange}
+          min={-10}
+          max={10}
+          step={1}
+          label="TTS RATE"
+        />
+        <SelectVideo
+          value={formData.tts_voice}
+          onChange={(value) => setFormData({ ...formData, tts_voice: value })}
+          options={voices}
+          name="tts_voice"
+        />
+        <SelectVideo
+          value={formData.pth_voice}
+          onChange={(value) => setFormData({ ...formData, pth_voice: value })}
+          options={pthVoices}
+          name="pth_voice"
+        />
+        <SelectVideo
+          value={formData.gameplay_name}
+          onChange={(value) => setFormData({ ...formData, gameplay_name: value })}
+          options={gameplays}
+          name="gameplay_name"
+        />
+        <SelectVideo
+          value={formData.instagram_account}
+          onChange={(value) => setFormData({ ...formData, instagram_account: value })}
+          options={accounts}
+          name="instagram_account"
+        />
+        <button className="w-full p-2 bg-blue-600 text-white rounded" onClick={handleSubmit}>Crear Reel</button>
       </div>
-      <select name="tts_voice" value={formData.tts_voice} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }}>
-        {voices.map((voice) => (
-          <option key={voice} value={voice}>{voice}</option>
-        ))}
-      </select>
-      <select name="pth_voice" value={formData.pth_voice} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }}>
-        {pthVoices.map((voice) => (
-          <option key={voice} value={voice}>{voice}</option>
-        ))}
-      </select>
-      <select name="gameplay_name" value={formData.gameplay_name} onChange={handleChange} style={{ display: "block", marginBottom: "10px", width: "100%" }}>
-        {gameplays.map((gameplay) => (
-          <option key={gameplay} value={gameplay}>{gameplay}</option>
-        ))}
-      </select>
-      <button onClick={handleSubmit} style={{ width: "100%", padding: "10px", backgroundColor: "blue", color: "white", border: "none", borderRadius: "4px" }}>Publicar</button>
     </div>
   );
 }

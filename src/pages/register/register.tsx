@@ -13,7 +13,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/");  
+      //navigate("/");  
     }
   }, [isLoggedIn, navigate]); 
 
@@ -21,7 +21,7 @@ const Register = () => {
     try {
       const response = await registerPost("/register", username, email, password);
       console.log("Registration success:", response);
-      navigate("/");
+     // navigate("/");
 
     } catch (error) {
       console.error("Registration failed:", error);

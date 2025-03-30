@@ -10,6 +10,8 @@ export const loginPost = async (route: string, username: string, password: strin
     body: JSON.stringify({username, password }),
   });
 
+  console.log(response)
+
   if (!response.ok) {
     throw new Error("Login failed");
   }

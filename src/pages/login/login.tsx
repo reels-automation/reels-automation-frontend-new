@@ -13,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/");  // Redirigir a la página principal si ya está logueado
+     // navigate("/");  // Redirigir a la página principal si ya está logueado
     }
   }, [isLoggedIn, navigate]);  // Dependencia en isLoggedIn y navigate
 
@@ -21,7 +21,7 @@ const Login = () => {
     try {
       const token = await loginPost("/login", username, password);
       console.log("Login success:", token);
-      navigate("/");
+      //navigate("/");
 
     } catch (error) {
       console.error("Login failed:", error);

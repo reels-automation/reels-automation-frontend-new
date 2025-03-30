@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { VideoItem } from './videoItem';
+import { VideoItem } from './VideoItem';
 import { VideoViewer } from './VideoViewer';
 
 const videoData = [
