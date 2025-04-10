@@ -20,7 +20,7 @@ function Navbar() {
         <NavbarButtonsContainer
           start={isLoggedIn ? 
             [
-              <NavbarButton key="create_video" url="/create-video">Create reel de homero simpson pene magico</NavbarButton>,
+              <NavbarButton key="create_video" url="/create-video">Crear video</NavbarButton>,
             ]:
             [
 
