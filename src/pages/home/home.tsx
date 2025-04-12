@@ -1,5 +1,6 @@
 import { Fragment } from "react/jsx-runtime";
 import Navbar from "../../components/navbar/navbar";
+import Footer from "../../components/footer/footer";
 
 // import { ReactNode } from "react";
 
@@ -13,6 +14,8 @@ const Home = () => {
     <Fragment>
 
         <Navbar />
+
+        <Footer />
 
     </Fragment>
   )
