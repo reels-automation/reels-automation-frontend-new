@@ -2,7 +2,7 @@ import { Fragment } from "react/jsx-runtime";
 import Navbar from "../../components/navbar/navbar";
 import { registerPost } from "../../fetchs/register/register-post";
 import RegisterForm from "./components/registerForm";
-
+import Footer from "../../components/footer/footer";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";

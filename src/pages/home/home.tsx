@@ -12,11 +12,14 @@ const Home = () => {
 
   return (
     <Fragment>
-
+      <div className="min-h-screen flex flex-col">
         <Navbar />
 
-        <Footer />
+        <main className="flex-grow px-4 py-8">
+        </main>
 
+        <Footer />
+      </div>
     </Fragment>
   )
 }
