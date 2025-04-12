@@ -33,6 +33,7 @@ const Register = () => {
 
       <Navbar />
       <RegisterForm onSubmit={handleRegister} />
+      <Footer />
       
     </Fragment>
   );

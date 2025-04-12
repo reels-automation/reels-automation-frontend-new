@@ -33,6 +33,7 @@ const Login = () => {
 
       <Navbar />
       <LoginForm onSubmit={handleLogin} />
+      <Footer />
 
     </Fragment>
   );
