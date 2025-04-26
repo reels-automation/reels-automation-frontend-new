@@ -22,12 +22,14 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
     }
   };
 
+  /*
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'auto';
     };
   }, []);
+  */
 
   return (
     <AuthFormLayout title="Create an account">

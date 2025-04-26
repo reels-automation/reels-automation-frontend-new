@@ -12,11 +12,6 @@ const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img
-              src="https://th.bing.com/th/id/R.39928ef71f5fa16f2c51031b4e182aab?rik=8O1Usrx4O2rbJQ&pid=ImgRaw&r=0"
-              className="h-8"
-              alt="Homero"
-            />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Aprendiendo con personajes
             </span>

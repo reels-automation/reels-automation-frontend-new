@@ -31,11 +31,13 @@ const Login = () => {
 
   return (
     <Fragment>
-
-      <Navbar />
-      <LoginForm onSubmit={handleLogin} />
-      <Footer />
-
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow">
+          <LoginForm onSubmit={handleLogin} />
+        </main>
+        <Footer />
+      </div>
     </Fragment>
   );
 };
