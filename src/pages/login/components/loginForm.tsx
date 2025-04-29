@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { AuthFormLayout } from '../../../components/auth_forms/authFormLayout';
-import { AuthInput } from '../../../components/auth_forms/authInput';
-import { AuthButton } from '../../../components/auth_forms/authButton';
+import { AuthFormLayout } from '../../../components/forms/authFormLayout';
+import { FormInput } from '../../../components/forms/formInput';
+import { FormButton } from '../../../components/forms/formButton';
 import { SignUpPrompt } from './signUpPrompt';
 
 interface LoginFormProps {
@@ -33,7 +33,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
   return (
     <AuthFormLayout title="Sign in to your account">
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-        <AuthInput
+        <FormInput
           id="username"
           label="Username"
           type="text"
@@ -42,7 +42,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
           onChange={setUsername}
         />
 
-        <AuthInput
+        <FormInput
           id="password"
           label="Password"
           type="password"
@@ -51,7 +51,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
           onChange={setPassword}
         />
 
-        <AuthButton>Sign In</AuthButton>
+        <FormButton>Sign In</FormButton>
         
         <SignUpPrompt />
       </form>
