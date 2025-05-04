@@ -22,7 +22,7 @@ const HomeMain = () => {
           LEARNING WITH CHARACTERS
         </h1>
 
-        <div className="grid gird-cols-3 gap-4 w-full max-w-xl mt-4 mb-4">
+        <div className="grid grid-cols-3 gap-4 w-full max-w-xl mt-4 mb-4">
           <div>
 
           </div>
