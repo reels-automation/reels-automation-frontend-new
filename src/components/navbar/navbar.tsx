@@ -3,6 +3,7 @@ import NavbarLogo from "./components/navbarLogo";
 import NavbarButton from "./components/navbarButton";
 import NavbarButtonsContainer from "./components/navbarButtonContainer";
 import { useAuth } from "../../context/authContext";
+import { Button } from "@/components/ui/button"
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

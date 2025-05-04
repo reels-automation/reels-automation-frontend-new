@@ -1,6 +1,7 @@
 import { Fragment } from "react/jsx-runtime";
 import CreateVideoPopUp from "./create_video_popup";
 import { useState } from "react";
+import { Button } from "@/components/ui/button"
 
 const HomeMain = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -11,7 +12,7 @@ const HomeMain = () => {
 
   return (
     <Fragment>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center space-y-2">
         <img 
           src="https://imagenes.20minutos.es/files/image_640_auto/uploads/imagenes/2017/09/29/550750.jpg" 
           alt="logo" 
@@ -21,16 +22,34 @@ const HomeMain = () => {
           LEARNING WITH CHARACTERS
         </h1>
 
+        <div className="grid grid-cols-3 gap-4 w-full max-w-xl mt-4 mb-4">
+          <div>
 
-        <button className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 mb-2"
-          onClick={openPopup}
-        >
-          Create Video
-        </button>
-        <button className="bg-green-500 text-white py-2 px-6 rounded-md hover:bg-green-600 mb-2">
-          Donate
-        </button>
+          </div>
+          <div>
+          <Button variant="outline" className="
+        w-full h-12 px-6
+        rounded-lg
+        focus:shadow-outline
+        bg-slate-300 hover:bg-slate-400
+        mt-4 mb-4
+        font-semibold text-lg font-poppins
+        " onClick={openPopup}> Create Video </Button>
 
+      <Button variant="outline" className="
+        w-full h-12 px-6
+        rounded-lg
+        focus:shadow-outline
+        bg-zinc-300 hover:bg-zinc-400 
+        mt-4 mb-4
+        font-semibold text-lg font-poppins
+        " onClick={openPopup}> Donate </Button>
+
+          </div>
+          <div>
+
+          </div>
+        </div>
         <CreateVideoPopUp isOpen={isPopupOpen} closePopup={closePopup} />
       </div>
     </Fragment>
