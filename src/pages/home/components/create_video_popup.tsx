@@ -13,8 +13,8 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
   const [formData, setFormData] = useState({
     tema: "",
     usuario: 0,
-    idioma: "",
-    personaje: "",
+    idioma: "es",
+    personaje: "Homero Simpson",
     script: "",
     audio_item: [
       {
