@@ -78,7 +78,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
     setIsTema(prevState => !prevState); // Alterna el estado entre 'tema' y 'script'
   };
 
-
   const characters = ["Homero Simpson"];
   const voices = ["es-ES-XimenaNeural", "es-MX-JorgeNeural"];
   const pthVoices = ["HOMERO SIMPSON LATINO"];
@@ -114,10 +113,64 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
     try {
       await createVideo(formData);
       console.log("Submitting:", formData);
+  
+      // Reiniciar el formulario a sus valores iniciales
+      setFormData({
+        tema: "",
+        usuario: 0,
+        idioma: "",
+        personaje: "",
+        script: "",
+        audio_item: [
+          {
+            tts_audio_name: "",
+            tts_audio_directory: "",
+            file_getter: "",
+            pitch: 0,
+            tts_voice: "",
+            tts_rate: 0,
+            pth_voice: "HOMERO SIMPSON LATINO",
+          },
+        ],
+        subtitle_item: [
+          {
+            subtitles_name: "",
+            file_getter: "",
+            subtitles_directory: "",
+          },
+        ],
+        author: "",
+        gameplay_name: "",
+        background_music: [
+          {
+            audio_name: "",
+            file_getter: "",
+            start_time: 0,
+            duration: 100,
+          },
+        ],
+        images: [
+          {
+            image_name: "homero1.png",
+            image_modifier: "rotate",
+            file_getter: "local",
+            image_directory: "HOMERO SIMPSON LATINO",
+            timestamp: 0,
+            duration: 10,
+          },
+        ],
+        random_images: true,
+        random_amount_images: 5,
+        gpt_model: "",
+      });
+  
+      // También puedes cerrar el popup automáticamente si quieres:
+       closePopup();
     } catch (error) {
       console.error("Error creating video:", error);
     }
   };
+  
 
   const changeIdioma = (value: string) => {
     let ttsVoice = "";
