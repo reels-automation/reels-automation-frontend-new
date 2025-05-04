@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AuthFormLayout } from '../../../components/forms/authFormLayout';
 import { FormInput } from '../../../components/forms/formInput';
 import { FormButton } from '../../../components/forms/formButton';
 import { SignUpPrompt } from './signUpPrompt';
+import { AlertCircle } from 'lucide-react';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
+  error: string | null; // Recibimos un error como string (o null si no hay error)
 }
 
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+const LoginForm = ({ onSubmit, error }: LoginFormProps) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -20,15 +27,6 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
       alert("Please enter both username and password.");
     }
   };
-
-  /*
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-  */
 
   return (
     <AuthFormLayout title="Sign in to your account">
@@ -52,7 +50,19 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
         />
 
         <FormButton>Sign In</FormButton>
-        
+
+        {error && ( // Si hay un error, mostrar la alerta
+          <div className="mt-4">
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                {error}
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
+
         <SignUpPrompt />
       </form>
     </AuthFormLayout>

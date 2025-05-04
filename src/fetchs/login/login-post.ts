@@ -13,8 +13,10 @@ export const loginPost = async (route: string, username: string, password: strin
   console.log(response)
 
   if (!response.ok) {
-    throw new Error("Login failed");
+    const json_error = await response.json();
+    throw new Error(`${JSON.stringify(json_error["detail"])}`);
   }
+  
   const data = await response.json();
   localStorage.setItem("authToken", data["access_token"]);
   return data;
