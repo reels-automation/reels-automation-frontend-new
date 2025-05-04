@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import Navbar from "../../components/navbar/navbar";
 import { useEffect } from "react";
 import { loginPost } from "../../fetchs/login/login-post";
 import LoginForm from "./components/loginForm";
@@ -43,6 +44,7 @@ const Login = () => {
 
   return (
     <Fragment>
+      <Navbar></Navbar>
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow">
           <LoginForm onSubmit={handleLogin} error={isError ? errorMessage : null} />

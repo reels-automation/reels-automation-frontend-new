@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AuthFormLayout } from '../../../components/forms/authFormLayout';
 import { FormInput } from '../../../components/forms/formInput';
 import { FormButton } from '../../../components/forms/formButton';
 import { SignInPrompt } from './signInPrompt';
+import { AlertCircle } from 'lucide-react';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 
 interface RegisterFormProps {
   onSubmit: (username: string, email: string, password: string) => void;
+  error?: string | null;  // Prop para mostrar errores
 }
 
-const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
+const RegisterForm = ({ onSubmit, error }: RegisterFormProps) => {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -18,22 +25,14 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
     if (username && email && password) {
       onSubmit(username, email, password);
     } else {
-      alert("Fill all the fields.");
+      alert("Please fill in all fields.");
     }
   };
-
-  /*
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, []);
-  */
 
   return (
     <AuthFormLayout title="Create an account">
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+
         <FormInput
           id="username"
           label="Username"
@@ -62,6 +61,19 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
         />
 
         <FormButton>Sign Up</FormButton>
+
+        {error && (
+          <div className="mt-4">
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                {error}
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
+
         <SignInPrompt />
       </form>
     </AuthFormLayout>

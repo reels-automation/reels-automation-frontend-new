@@ -1,4 +1,4 @@
-import { Fragment } from "react/jsx-runtime";
+import { Fragment, useState } from "react";
 import Navbar from "../../components/navbar/navbar";
 import { registerPost } from "../../fetchs/register/register-post";
 import RegisterForm from "./components/registerForm";
@@ -10,10 +10,12 @@ import { useAuth } from "../../context/authContext";
 const Register = () => {
   const navigate = useNavigate();  
   const {isLoggedIn} = useAuth();
+  
+  const [isError, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (isLoggedIn) {
-      //navigate("/");  
     }
   }, [isLoggedIn, navigate]); 
 
@@ -21,10 +23,19 @@ const Register = () => {
     try {
       const response = await registerPost("/register", username, email, password);
       console.log("Registration success:", response);
-     // navigate("/");
+      setError(false);
+      navigate("/");
+      window.location.reload()
 
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Registration failed:", error);
+      setError(true);
+      
+      if (error instanceof Error) {
+        setErrorMessage(error.message);  
+      } else {
+        setErrorMessage("An unknown error occurred.");  
+      }
     }
   };
 
@@ -32,8 +43,8 @@ const Register = () => {
     <Fragment>
 
       <Navbar />
-      <RegisterForm onSubmit={handleRegister} />
-      <Footer />
+      <RegisterForm onSubmit={handleRegister} error={isError ? errorMessage : null} />
+  
       
     </Fragment>
   );

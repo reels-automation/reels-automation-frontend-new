@@ -10,7 +10,8 @@ export const registerPost = async (route: string, username: string, email: strin
     });
 
     if (!response.ok) {
-        throw new Error("Registration failed");
+        const json_error = await response.json();
+        throw new Error(`${JSON.stringify(json_error["detail"])}`);
     }
 
     const data = await response.json();
