@@ -16,13 +16,9 @@ const Home = () => {
 
         <main className="flex-grow px-4 py-8 mt-10">
           <HomeMain />
-
           <div>
-      
-    </div>
-    
+          </div>
         </main>
-
         <Footer />
       </div>
     </Fragment>

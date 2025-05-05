@@ -18,11 +18,11 @@ const Footer: React.FC = () => {
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
             <li>
-              <Link to="/about" className="hover:underline me-4 md:me-6">
-                About
-              </Link>
+              {/* <Link to="/about" className="hover:underline me-4 md:me-6">
+                Este link es mentira
+              </Link> */}
             </li>
-            <li>
+            {/* <li>
               <Link to="/privacy-policy" className="hover:underline me-4 md:me-6">
                 Privacy Policy
               </Link>
@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
               <Link to="/contact" className="hover:underline">
                 Contact
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />

@@ -25,20 +25,20 @@ const RegisterForm = ({ onSubmit, error }: RegisterFormProps) => {
     if (username && email && password) {
       onSubmit(username, email, password);
     } else {
-      alert("Please fill in all fields.");
+      alert("Porfavor llena todo el formulario.");
     }
   };
 
   return (
-    <AuthFormLayout title="Create an account">
+    <AuthFormLayout title="Crea tu cuenta">
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
 
         <FormInput
           id="username"
-          label="Username"
+          label="Nombre de usuario"
           type="text"
           value={username}
-          placeholder="Enter username"
+          placeholder="Tu nombre de usuario"
           onChange={setUsername}
         />
 
@@ -47,20 +47,20 @@ const RegisterForm = ({ onSubmit, error }: RegisterFormProps) => {
           label="Email"
           type="email"
           value={email}
-          placeholder="Enter email"
+          placeholder="Tu email"
           onChange={setEmail}
         />
 
         <FormInput
           id="password"
-          label="Password"
+          label="Contraseña"
           type="password"
           value={password}
-          placeholder="Enter password"
+          placeholder="Tu contraseña"
           onChange={setPassword}
         />
 
-        <FormButton>Sign Up</FormButton>
+        <FormButton>Registrarse</FormButton>
 
         {error && (
           <div className="mt-4">

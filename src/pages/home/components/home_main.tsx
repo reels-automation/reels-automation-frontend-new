@@ -19,36 +19,32 @@ const HomeMain = () => {
           className="w-48 h-48 rounded-full border-6 border-white"
         />
         <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl mt-4 mb-2 text-center">
-          LEARNING WITH CHARACTERS
+          APRENDIENDO CON PERSONAJES
         </h1>
 
         <div className="grid grid-cols-3 gap-4 w-full max-w-xl mt-4 mb-4">
-          <div>
+          <div></div>
+            <div>
+              <Button variant="outline" className="
+                w-full h-12 px-6
+                rounded-lg
+                focus:shadow-outline
+                bg-slate-300 hover:bg-slate-400
+                mt-4 mb-4
+                font-semibold text-lg font-poppins
+                " onClick={openPopup}> Crear video 
+              </Button>
 
-          </div>
-          <div>
-          <Button variant="outline" className="
-        w-full h-12 px-6
-        rounded-lg
-        focus:shadow-outline
-        bg-slate-300 hover:bg-slate-400
-        mt-4 mb-4
-        font-semibold text-lg font-poppins
-        " onClick={openPopup}> Create Video </Button>
-
-      <Button variant="outline" className="
-        w-full h-12 px-6
-        rounded-lg
-        focus:shadow-outline
-        bg-zinc-300 hover:bg-zinc-400 
-        mt-4 mb-4
-        font-semibold text-lg font-poppins
-        " onClick={openPopup}> Donate </Button>
-
-          </div>
-          <div>
-
-          </div>
+              <Button variant="outline" className="
+                w-full h-12 px-6
+                rounded-lg
+                focus:shadow-outline
+                bg-zinc-300 hover:bg-zinc-400 
+                mt-4 mb-4
+                font-semibold text-lg font-poppins
+                " onClick={openPopup}> Comprar créditos
+              </Button>
+            </div>
         </div>
         <CreateVideoPopUp isOpen={isPopupOpen} closePopup={closePopup} />
       </div>

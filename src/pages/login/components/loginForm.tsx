@@ -24,34 +24,34 @@ const LoginForm = ({ onSubmit, error }: LoginFormProps) => {
     if (username && password) {
       onSubmit(username, password);
     } else {
-      alert("Please enter both username and password.");
+      alert("Ingresa el usuario y la contraseña.");
     }
   };
 
   return (
-    <AuthFormLayout title="Sign in to your account">
+    <AuthFormLayout title="Inicia sesión en tu cuenta">
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
         <FormInput
           id="username"
-          label="Username"
+          label="Nombre de usuario"
           type="text"
           value={username}
-          placeholder="Username"
+          placeholder="Tu nombre de usuario"
           onChange={setUsername}
         />
 
         <FormInput
           id="password"
-          label="Password"
+          label="Contraseña"
           type="password"
           value={password}
-          placeholder="Password"
+          placeholder="Tu contraseña"
           onChange={setPassword}
         />
 
-        <FormButton>Sign In</FormButton>
+        <FormButton>Iniciar Sesión</FormButton>
 
-        {error && ( // Si hay un error, mostrar la alerta
+        {error && (
           <div className="mt-4">
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />

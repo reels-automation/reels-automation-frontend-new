@@ -14,7 +14,7 @@ function Navbar() {
   const { isLoggedIn, logout } = useAuth();
 
   const startButtons = isLoggedIn
-    ? [<NavbarButton key="create_video" url="/create-video">Crear video</NavbarButton>]
+    ? []
     : [];
 
   const endButtons = isLoggedIn
@@ -29,8 +29,8 @@ function Navbar() {
         </NavbarButton>
       ]
     : [
-        <NavbarButton key="login" url="/login" className="text-center">Sign in</NavbarButton>,
-        <NavbarButton key="register" url="/register" className="text-center">Sign up</NavbarButton>
+        <NavbarButton key="login" url="/login" className="text-center">Iniciar Sesión</NavbarButton>,
+        <NavbarButton key="register" url="/register" className="text-center">Registrarse</NavbarButton>
       ];
 
   return (
@@ -65,7 +65,7 @@ function Navbar() {
           {isMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-gray-200 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg z-20">
               <ul className="flex flex-col py-2 list-none">
-                {startButtons.map((button, index) => (
+                {/* {startButtons.map((button, index) => (
                   <li
                     key={`start-${index}`}
                     className="px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-700 text-center"
@@ -74,7 +74,7 @@ function Navbar() {
                       {button.props.children}
                     </a>
                   </li>
-                ))}
+                ))} */}
                 {endButtons.map((button, index) => (
                   <li
                     key={`end-${index}`}
