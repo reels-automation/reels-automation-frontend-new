@@ -105,65 +105,68 @@ const MisVideos = () => {
   }, [userId]);
 
   return (
-    <div style={{ backgroundColor: bgColor }} className="min-h-screen py-8 px-4">
+    <div style={{ backgroundColor: bgColor }} className="min-h-screen flex flex-col">
       <Navbar />
-      <h1 className="text-3xl font-bold mb-6">Mis Videos</h1>
-
-      <Accordion type="multiple" className="space-y-4">
-        {videos.map((video, index) => (
-          <AccordionItem key={index} value={`video-${index}`}>
-            <AccordionTrigger className="px-0">
-              <div
-                className="w-full max-w-2xl mx-auto bg-muted hover:bg-muted/80 transition-colors duration-200 
-                           rounded-xl px-6 py-4 shadow-md text-left text-lg font-medium"
-              >
-                🎬 {video.tema} — {video.personaje}
-              </div>
-            </AccordionTrigger>
-
-            <AccordionContent>
-              <Card className="bg-white dark:bg-gray-900 shadow-sm p-4">
-                <CardContent className="space-y-4">
-                <video
-  controls
-  className="w-full h-screen object-contain max-w-full max-h-full rounded-xl border border-gray-300 dark:border-gray-700 shadow-md mx-auto"
->
-  <source src={video.url} type="video/mp4" />
-  Tu navegador no soporta el video.
-</video>
-
-
-
-
-                  <div className="text-sm text-gray-700 dark:text-gray-300">
-                    <p><strong>Autor:</strong> {video.author}</p>
-                    <p><strong>Usuario:</strong> {video.usuario}</p>
-                    <p><strong>Idioma:</strong> {video.idioma}</p>
-                    <p><strong>Script:</strong> {video.script}</p>
-                    <p><strong>Voz TTS:</strong> {video.audio_item[0]?.tts_voice}</p>
-                    <p><strong>Voz PTH:</strong> {video.audio_item[0]?.pth_voice}</p>
+      <main className="flex-grow py-8 px-4">
+        <h1 className="text-3xl font-bold mb-6">Mis Videos</h1>
+  
+        {videos.length === 0 ? (
+          <div className="text-center text-gray-600 dark:text-gray-300 text-lg mt-10">
+            🎬 Aún no tienes videos generados. ¡Crea uno para verlo aquí!
+          </div>
+        ) : (
+          <Accordion type="multiple" className="space-y-4">
+            {videos.map((video, index) => (
+              <AccordionItem key={index} value={`video-${index}`}>
+                <AccordionTrigger className="px-0">
+                  <div
+                    className="w-full max-w-2xl mx-auto bg-muted hover:bg-muted/80 transition-colors duration-200 
+                               rounded-xl px-6 py-4 shadow-md text-left text-lg font-medium"
+                  >
+                    🎬 {video.tema} — {video.personaje}
                   </div>
-
-                  <div className="flex justify-center">
-                  <Button
-  variant="secondary"
-  onClick={() => window.location.href = video.url}
-  className="bg-green-300 hover:bg-green-400 text-gray-800"
->
-  Descargar video
-</Button>
-
-
-                  </div>
-                </CardContent>
-              </Card>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-
+                </AccordionTrigger>
+  
+                <AccordionContent>
+                  <Card className="bg-white dark:bg-gray-900 shadow-sm p-4">
+                    <CardContent className="space-y-4">
+                      <video
+                        controls
+                        className="w-full h-screen object-contain max-w-full max-h-full rounded-xl border border-gray-300 dark:border-gray-700 shadow-md mx-auto"
+                      >
+                        <source src={video.url} type="video/mp4" />
+                        Tu navegador no soporta el video.
+                      </video>
+  
+                      <div className="text-sm text-gray-700 dark:text-gray-300">
+                        <p><strong>Autor:</strong> {video.author}</p>
+                        <p><strong>Usuario:</strong> {video.usuario}</p>
+                        <p><strong>Idioma:</strong> {video.idioma}</p>
+                        <p><strong>Script:</strong> {video.script}</p>
+                        <p><strong>Voz TTS:</strong> {video.audio_item[0]?.tts_voice}</p>
+                        <p><strong>Voz PTH:</strong> {video.audio_item[0]?.pth_voice}</p>
+                      </div>
+  
+                      <div className="flex justify-center">
+                        <Button
+                          variant="secondary"
+                          onClick={() => window.location.href = video.url}
+                          className="bg-green-300 hover:bg-green-400 text-gray-800"
+                        >
+                          Descargar video
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
+      </main>
+      <Footer />
     </div>
   );
-};
+}
 
 export default MisVideos;
