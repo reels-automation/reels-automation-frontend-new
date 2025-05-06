@@ -124,13 +124,16 @@ const MisVideos = () => {
             <AccordionContent>
               <Card className="bg-white dark:bg-gray-900 shadow-sm p-4">
                 <CardContent className="space-y-4">
-                  <video
-                    controls
-                    className="h-80 w-44 rounded-xl border border-gray-300 dark:border-gray-700 shadow-md object-cover mx-auto"
-                  >
-                    <source src={video.url} type="video/mp4" />
-                    Tu navegador no soporta el video.
-                  </video>
+                <video
+  controls
+  className="w-full h-screen object-contain max-w-full max-h-full rounded-xl border border-gray-300 dark:border-gray-700 shadow-md mx-auto"
+>
+  <source src={video.url} type="video/mp4" />
+  Tu navegador no soporta el video.
+</video>
+
+
+
 
                   <div className="text-sm text-gray-700 dark:text-gray-300">
                     <p><strong>Autor:</strong> {video.author}</p>
