@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState , useEffect} from "react";
 import { createVideo } from "../../../fetchs/create-video/createVideo";
 import { FormButton } from "../../../components/forms/formButton";
 import { FormInput } from "../../../components/forms/formInput";
@@ -22,10 +22,15 @@ interface CreateVideoPopUpProps {
   closePopup: () => void;
 }
 
+
+
+
+
+
 const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup }) => {
   const [formData, setFormData] = useState({
     tema: "",
-    usuario: 0,
+    usuario: "",
     idioma: "",
     personaje: "",
     script: "",
@@ -72,6 +77,28 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
     gpt_model: "",
   });
 
+  function getSubFromToken(): string  {
+    try {
+      const token = localStorage.getItem("authToken"); // Cambia esto por tu clave real
+      if (!token) return "";
+  
+      const payload = token.split(".")[1];
+      const decoded = JSON.parse(atob(payload));
+  
+      return decoded.sub; // Esto ahora se espera que sea string (UUID)
+    } catch (err) {
+      console.error("Error decoding token", err);
+      return "";
+    }
+  }
+
+  useEffect(() => {
+    const sub = getSubFromToken();
+    if (sub !== null) {
+      setFormData((prev) => ({ ...prev, usuario: sub }));
+    }
+  }, []);
+
   const [isTema, setIsTema] = useState(false);
   
   const handleSwitchChange = () => {
@@ -117,7 +144,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
       // Reiniciar el formulario a sus valores iniciales
       setFormData({
         tema: "",
-        usuario: 0,
+        usuario: "",
         idioma: "",
         personaje: "",
         script: "",

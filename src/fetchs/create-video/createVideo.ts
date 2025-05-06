@@ -3,7 +3,7 @@ import { API_URL } from "../api";
 type Dictionary = Record<string, any>;
 
 export const createVideo = async (videoData:Dictionary) => {
-    const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("authToken");
   const response = await fetch(`${API_URL}${"/create-video"}`, {
     method: "POST",
     headers: {
