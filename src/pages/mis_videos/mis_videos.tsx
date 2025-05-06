@@ -1,10 +1,8 @@
-import { Fragment } from "react/jsx-runtime";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 
 interface VideoData {
   tema: string;
@@ -47,38 +45,37 @@ interface VideoData {
   gpt_model: string;
 }
 
-// 🧪 Sample video con preview
 const sampleVideos: VideoData[] = [
   {
-    tema: "Física cuántica para bebés",
-    usuario: "pepito123",
+    tema: "Los Donuts y la Teoría Cuántica",
+    usuario: "usuario1",
     idioma: "es",
     personaje: "Homero Simpson",
-    script: "Mmmh, ¡el gato de Schrödinger tiene donuts!",
+    script: "Mmmh... ¡Donuts cuánticos!",
     audio_item: [
       {
-        tts_audio_name: "audio1.mp3",
-        tts_audio_directory: "/audios",
-        file_getter: "local",
+        tts_audio_name: "donut1.mp3",
+        tts_audio_directory: "audios/",
+        file_getter: "minio",
         pitch: 0,
-        tts_voice: "es-MX-JorgeNeural",
+        tts_voice: "es-MX-CarlosNeural",
         tts_rate: 0,
         pth_voice: "HOMERO SIMPSON LATINO"
       }
     ],
     subtitle_item: [
       {
-        subtitles_name: "subs1.srt",
-        file_getter: "local",
-        subtitles_directory: "/subtitles"
+        subtitles_name: "donut1.vtt",
+        file_getter: "minio",
+        subtitles_directory: "subtitles/"
       }
     ],
-    author: "Mi amigo el galofa",
+    author: "Galofa",
     gameplay_name: "subway.mp4",
     background_music: [
       {
-        audio_name: "bg.mp3",
-        file_getter: "local",
+        audio_name: "bgm1.mp3",
+        file_getter: "minio",
         start_time: 0,
         duration: 100
       }
@@ -96,58 +93,64 @@ const sampleVideos: VideoData[] = [
     random_images: true,
     random_amount_images: 5,
     gpt_model: "mistral:latest"
-  }
+  },
 ];
 
 const MisVideos = () => {
+  const bgColor = "#f3f4f6";
+
   return (
-    <Fragment>
-      <Navbar />
-      <main className="flex-grow px-4 py-8 mt-10 min-h-screen bg-gray-50 dark:bg-gray-900">
-      <h1 className="text-2xl font-bold mb-6 mt-6">Mis Videos</h1>
-        <ScrollArea className="h-[calc(100vh-12rem)] mt-5">
-          <div className="space-y-6">
-            {sampleVideos.map((video, index) => {
-              const videoUrl = `http://localhost:9001/api/v1/download-shared-object/aHR0cDovLzEyNy4wLjAuMTo5MDAwL3ZpZGVvcy1ob21lcm8vY29tbyUyMGVzdHVkaWFyJTIwZW4lMjBsYSUyMHVuaXZlc3JkaWFkJTIwZGUlMjBidWVub3MlMjBhaXJlcyUyMHklMjBhcnBvcmFyJTIwdG9kYXMlMjBsYXMlMjBtYXRlcmlhcy5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1GS1JQNldQVFdUSUpKVVc4UFhKMCUyRjIwMjUwNTA2JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUwNlQwNDU1NTdaJlgtQW16LUV4cGlyZXM9NDMxOTkmWC1BbXotU2VjdXJpdHktVG9rZW49ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmhZMk5sYzNOTFpYa2lPaUpHUzFKUU5sZFFWRmRVU1VwS1ZWYzRVRmhLTUNJc0ltVjRjQ0k2TVRjME5qVXpNVEkzTWl3aWNHRnlaVzUwSWpvaVFVdEpRVWxQVTBaUFJFNU9OMFZZUVUxUVRFVWlmUS50Y2Jtdlg3c3p5ZGlUMkZkbDFYdjA2UzVWUlk1UU54eGZPWWRuNEVPbXhuOEkweXp2WU9SQUQ1ZG56ZUNWR2tsUGh2cHBIRFdfWnRfNXV0SV8yU1UzZyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmdmVyc2lvbklkPW51bGwmWC1BbXotU2lnbmF0dXJlPTJlZGNjNjg4YmZmYjhkYWIzMTEwYjM3ZTdlOWM2N2NiZjQ0YzcwN2E4ZDBlODk2MTBlY2RjZmJkZTIyNmVlMDA`; // 🔁 Adaptá esta URL
+    <div style={{ backgroundColor: bgColor }} className="min-h-screen py-8 px-4">
+        <Navbar></Navbar>
+      <h1 className="text-3xl font-bold mb-6">Mis Videos</h1>
 
-              return (
-                <Card key={index} className="w-full max-w-4xl mx-auto">
-                  <CardHeader>
-                    <CardTitle>{video.tema} — {video.personaje}</CardTitle>
-                  </CardHeader>
+      <Accordion type="multiple" className="space-y-4">
+        {sampleVideos.map((video, index) => {
+          const videoUrl = `https://minio.example.com/videos/${video.gameplay_name}`;
+          return (
+            <AccordionItem key={index} value={`video-${index}`}>
+              <AccordionTrigger className="px-0">
+  <div
+    className="w-full max-w-2xl mx-auto bg-muted hover:bg-muted/80 transition-colors duration-200 
+               rounded-xl px-6 py-4 shadow-md text-left text-lg font-medium"
+  >
+    🎬 {video.tema} — {video.personaje}
+  </div>
+</AccordionTrigger>
 
-                  <CardContent className="space-y-4 text-sm text-muted-foreground">
-                  <video
-  controls
-  className="h-80 w-44 rounded-xl border border-gray-300 dark:border-gray-700 shadow-md object-cover mx-auto"
->
-  <source src={videoUrl} type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
+              <AccordionContent>
+                <Card className="bg-white dark:bg-gray-900 shadow-sm p-4">
+                  <CardContent className="space-y-4">
+                    <video
+                      controls
+                      className="h-80 w-44 rounded-xl border border-gray-300 dark:border-gray-700 shadow-md object-cover mx-auto"
+                    >
+                      <source src={videoUrl} type="video/mp4" />
+                      Tu navegador no soporta el video.
+                    </video>
 
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                      <p><strong>Autor:</strong> {video.author}</p>
+                      <p><strong>Usuario:</strong> {video.usuario}</p>
+                      <p><strong>Idioma:</strong> {video.idioma}</p>
+                      <p><strong>Script:</strong> {video.script}</p>
+                      <p><strong>Voz TTS:</strong> {video.audio_item[0]?.tts_voice}</p>
+                      <p><strong>Voz PTH:</strong> {video.audio_item[0]?.pth_voice}</p>
+                    </div>
 
-                    <div><strong>Usuario:</strong> {video.usuario}</div>
-                    <div><strong>Idioma:</strong> {video.idioma}</div>
-                    <div><strong>Script:</strong> {video.script}</div>
-                    <div><strong>Gameplay:</strong> {video.gameplay_name}</div>
-                    <div><strong>Autor:</strong> {video.author}</div>
-                    <div><strong>Modelo GPT:</strong> {video.gpt_model}</div>
-
-                    <Separator />
-                    <div className="flex justify-end">
-                      <Button variant="default" className="w-full sm:w-auto">
-                        Descargar Video
+                    <div className="flex justify-center">
+                      <Button variant="secondary">
+                        Descargar video
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
-              );
-            })}
-          </div>
-        </ScrollArea>
-      </main>
-      <Footer />
-    </Fragment>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+    </div>
   );
 };
 
