@@ -1,17 +1,51 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import NavbarLogo from "./components/navbarLogo";
 import NavbarButton from "./components/navbarButton";
 import NavbarButtonsContainer from "./components/navbarButtonContainer";
 import { useAuth } from "../../context/authContext";
-import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { useNavigate } from "react-router-dom";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 function Navbar() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState("Usuario")
   const burgerRef = useRef(null);
 
   const logo_image = "https://th.bing.com/th/id/R.39928ef71f5fa16f2c51031b4e182aab?rik=8O1Usrx4O2rbJQ&pid=ImgRaw&r=0";
   const home_route = "/";
   const { isLoggedIn, logout } = useAuth();
+
+  function getSubFromToken(): string  {
+    try {
+      const token = localStorage.getItem("authToken"); // Cambia esto por tu clave real
+      if (!token) return "";
+  
+      const payload = token.split(".")[1];
+      const decoded = JSON.parse(atob(payload));
+  
+      return decoded.username; // Esto ahora se espera que sea string (UUID)
+    } catch (err) {
+      console.error("Error decoding token", err);
+      return "";
+    }
+  }
+
+  useEffect(() => {
+      const username = getSubFromToken();
+      if (username !== null) {
+        setUser(username)
+      }
+    }, []);
 
   const startButtons = isLoggedIn
     ? []
@@ -19,14 +53,46 @@ function Navbar() {
 
   const endButtons = isLoggedIn
     ? [
-        <NavbarButton 
-          key="logout" 
-          url="/login" 
-          onClick={() => logout()} 
-          className="text-center bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
-        >
-          Logout
-        </NavbarButton>
+        
+      <Popover>
+  <PopoverTrigger><Avatar className="w-12 h-12">
+        <AvatarImage src="https://via.placeholder.com/150" alt="User Avatar" />
+        <AvatarFallback>{user[0]}</AvatarFallback>
+      </Avatar>
+      </PopoverTrigger>
+
+  <PopoverContent className="w-56 p-4">
+    <div className="flex flex-col items-center text-center space-y-2">
+      
+      <Avatar className="w-12 h-12">
+        <AvatarImage src="https://via.placeholder.com/150" alt="User Avatar" />
+        <AvatarFallback>{user[0]}</AvatarFallback>
+      </Avatar>
+      <div className="font-medium text-sm">{user}</div>
+    </div>
+
+    <Separator className="my-4" />
+
+    {/* Botones tipo lista */}
+    <div className="flex flex-col">
+      <Button
+        variant="ghost"
+        className="justify-start w-full hover:bg-muted px-3 py-2"
+        onClick={() => navigate("/mis-videos")}
+      >
+        Mis Videos
+      </Button>
+      <Button
+        variant="ghost"
+        className="justify-start w-full hover:bg-muted px-3 py-2"
+        onClick={logout}
+      >
+        Cerrar sesión
+      </Button>
+    </div>
+  </PopoverContent>
+</Popover>
+
       ]
     : [
         <NavbarButton key="login" url="/login" className="text-center">Iniciar Sesión</NavbarButton>,
@@ -40,6 +106,8 @@ function Navbar() {
         <NavbarLogo url={home_route} image={logo_image}>
           Aprendiendo con personajes
         </NavbarLogo>
+
+        
 
         {/* Burger button */}
         <div className="relative">

@@ -1,24 +1,18 @@
 import { Fragment } from "react/jsx-runtime";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
-import HomeMain from "./components/home_main";
 
-
-const Home = () => {
+const MisVideos = () => {
   const bgColor = "#f3f4f6";
-
   return (
     <Fragment> 
         <Navbar />
-
         <main className="flex-grow px-4 py-8 mt-10">
-          <HomeMain />
+            <h1>Mis Videos</h1>
         </main>
     <Footer />
     </Fragment>
-
-      
   );
 };
 
-export default Home;
+export default MisVideos;

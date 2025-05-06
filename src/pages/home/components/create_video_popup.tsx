@@ -22,11 +22,6 @@ interface CreateVideoPopUpProps {
   closePopup: () => void;
 }
 
-
-
-
-
-
 const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup }) => {
   const [formData, setFormData] = useState({
     tema: "",
