@@ -2,7 +2,58 @@ import { Fragment } from "react/jsx-runtime";
 import CreateVideoPopUp from "./create_video_popup";
 import { useState } from "react";
 import { Button } from "@/components/ui/button"
+import { initMercadoPago } from "@mercadopago/sdk-react";
+import { API_URL } from "@/fetchs/api";
 
+// Inicializamos MercadoPago una sola vez
+initMercadoPago("APP_USR-37599c5e-4881-4651-a0c8-e3383bb9f31e", {
+  locale: "es-AR",
+});
+
+// Función para obtener el UUID del token
+function getSubFromToken(): string {
+  try {
+    const token = localStorage.getItem("authToken");
+    if (!token) return "";
+
+    const payload = token.split(".")[1];
+    const decoded = JSON.parse(atob(payload));
+
+    return decoded.sub; // UUID
+  } catch (err) {
+    console.error("Error decoding token", err);
+    return "";
+  }
+}
+
+// Función para iniciar el pago
+async function handlePayment() {
+  const userId = getSubFromToken();
+  if (!userId) {
+    alert("No estás autenticado.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}${"/mercadopago/preference"}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: userId }),
+    });
+
+    if (!response.ok) {
+      throw new Error("No se pudo crear la preferencia de pago.");
+    }
+
+    const data = await response.json();
+    window.location.href = data.init_point; // Redireccionar a MercadoPago
+  } catch (err) {
+    console.error("Error al iniciar el pago:", err);
+    alert("Error al iniciar el pago.");
+  }
+}
 const HomeMain = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -42,7 +93,7 @@ const HomeMain = () => {
                 bg-zinc-300 hover:bg-zinc-400 
                 mt-4 mb-4
                 font-semibold text-lg font-poppins
-                " onClick={openPopup}> Comprar créditos
+                " onClick={handlePayment}> Comprar créditos
               </Button>
             </div>
         </div>

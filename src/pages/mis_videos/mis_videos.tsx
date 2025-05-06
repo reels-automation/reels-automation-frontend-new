@@ -126,7 +126,9 @@ const MisVideos = () => {
                 <CardContent className="space-y-4">
                 <video
   controls
-  className="w-full h-screen object-contain max-w-full max-h-full rounded-xl border border-gray-300 dark:border-gray-700 shadow-md mx-auto"
+  playsInline
+  loop
+  className="max-h-[36rem] w-auto rounded-lg border shadow-sm mx-auto"
 >
   <source src={video.url} type="video/mp4" />
   Tu navegador no soporta el video.
