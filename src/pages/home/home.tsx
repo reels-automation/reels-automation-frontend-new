@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
 import HomeMain from "./components/home_main";
@@ -6,15 +5,13 @@ import HomeMain from "./components/home_main";
 
 const Home = () => {
   return (
-    <Fragment>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow px-4 py-8 mt-10" style={{ backgroundColor: "#f3f4f6" }}>
+      <main className="flex-grow px-4 py-8 mt-10">
         <HomeMain />
-        <div className="mt-8">          
-        </div>
       </main>
       <Footer />
-    </Fragment>
+    </div>
   );
 };
 
