@@ -7,6 +7,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { AlertCircle } from 'lucide-react';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
+
+import { API_URL } from "@/fetchs/api";
 
 import {
   Select,
@@ -15,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { decode } from "punycode";
 
 
 interface CreateVideoPopUpProps {
@@ -79,20 +88,45 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
   
       const payload = token.split(".")[1];
       const decoded = JSON.parse(atob(payload));
-  
+
+      console.log("decoded sub:", decoded.sub)  
       return decoded.sub; // Esto ahora se espera que sea string (UUID)
     } catch (err) {
       console.error("Error decoding token", err);
       return "";
     }
   }
+  
+  const [userTokens, setUserTokens] = useState<number | null>(null);
 
-  useEffect(() => {
-    const sub = getSubFromToken();
-    if (sub !== null) {
-      setFormData((prev) => ({ ...prev, usuario: sub }));
+  async function getTokensFromUser() {
+    try {
+      const response = await fetch(`${API_URL}/user-tokens`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_id: getSubFromToken() }),
+      });
+  
+      const data = await response.json();
+      setUserTokens(data.credits || 0);
+    } catch (err) {
+      console.error("Error fetching tokens", err);
+      setUserTokens(0);
     }
-  }, []);
+  }
+  
+  useEffect(() => {
+    if (isOpen) {
+      const sub = getSubFromToken();
+      if (sub) {
+        setFormData((prev) => ({ ...prev, usuario: sub }));
+        getTokensFromUser();
+      }
+    }
+  }, [isOpen]);
+  
 
   const [isTema, setIsTema] = useState(false);
   
@@ -380,9 +414,24 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
     </div>    
 </div>
 
-              <FormButton className="bg-gradient-to-r from-gray-200 to-gray-300 text-gray-900 font-semibold rounded-lg px-6 py-3 shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:from-gray-300 hover:to-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 w-full mt-4">
-                Publish video
-              </FormButton>
+
+      {userTokens !== null && (
+        <div className="text-sm text-gray-700 font-medium mb-2">
+          Tokens disponibles: {userTokens}
+        </div>
+      )}
+
+      {userTokens === 0 ? (
+        <Alert variant="destructive" className="mt-4">
+          <AlertTitle>¡Sin créditos!</AlertTitle>
+          <AlertDescription>No tenés tokens disponibles para publicar un video.</AlertDescription>
+        </Alert>
+      ) : (
+        <FormButton className="bg-gradient-to-r from-gray-200 to-gray-300 text-gray-900 font-semibold rounded-lg px-6 py-3 shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:from-gray-300 hover:to-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 w-full mt-4">
+          Publish video
+        </FormButton>
+      )}
+
               
             </div>
           </div>
