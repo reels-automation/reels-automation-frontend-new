@@ -28,10 +28,7 @@ export default function VideoSubmissionForm() {
     instagram_account: "aprendiendo.con.personajes"
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+
 
   const handlePitchSliderChange = (value: number) => {
     setFormData({ ...formData, pitch: value });

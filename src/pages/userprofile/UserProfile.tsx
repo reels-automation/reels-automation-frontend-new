@@ -1,4 +1,3 @@
-import React from 'react';
 import { UserProfileHeader } from './components/UserProfileHeader';
 import { VideoSection } from './components/VideoSection';
 

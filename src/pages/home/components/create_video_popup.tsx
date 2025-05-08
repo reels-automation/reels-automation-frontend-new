@@ -3,12 +3,12 @@ import { createVideo } from "../../../fetchs/create-video/createVideo";
 import { FormButton } from "../../../components/forms/formButton";
 import { FormInput } from "../../../components/forms/formInput";
 import { useAuth } from "@/context/authContext";
-import { FormSelect } from "../../../components/forms/formSelect";
+//import { FormSelect } from "../../../components/forms/formSelect";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { AlertCircle } from 'lucide-react';
+//import { AlertCircle } from 'lucide-react';
 import {
   Alert,
   AlertDescription,
@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { decode } from "punycode";
+//import { decode } from "punycode";
 
 
 interface CreateVideoPopUpProps {
@@ -140,14 +140,13 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
     setIsTema(prevState => !prevState); // Alterna el estado entre 'tema' y 'script'
   };
 
-  const characters = ["Homero Simpson"];
-  const voices = ["es-ES-XimenaNeural", "es-MX-JorgeNeural"];
-  const pthVoices = ["HOMERO SIMPSON LATINO"];
+  //const characters = ["Homero Simpson"];
+ // const voices = ["es-ES-XimenaNeural", "es-MX-JorgeNeural"];
+  //const pthVoices = ["HOMERO SIMPSON LATINO"];
   const gameplays = [
     { value: "subway.mp4", label: "Subway Surfers" },
 ]; {/*Hacer que sea un value a subway y que despuse del backend se agarren random*/}
 
-    const accounts = ["aprendiendo.con.personajes"];
 
   const idiomas = [
     { value: "es", label: "Español" },

@@ -3,7 +3,7 @@ import NavbarLogo from "./components/navbarLogo";
 import NavbarButton from "./components/navbarButton";
 import NavbarButtonsContainer from "./components/navbarButtonContainer";
 import { useAuth } from "../../context/authContext";
-import { Label } from "@/components/ui/label";
+//import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";

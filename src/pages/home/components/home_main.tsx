@@ -7,7 +7,7 @@ import { API_URL } from "@/fetchs/api";
 
 
 const production = "APP_USR-e4f8400d-98d6-482d-bac8-96499e2195e2"
-const development = "APP_USR-37599c5e-4881-4651-a0c8-e3383bb9f31e"
+// const development = "APP_USR-37599c5e-4881-4651-a0c8-e3383bb9f31e"
 
 initMercadoPago(production, {
   locale: "es-AR",
