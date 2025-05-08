@@ -2,6 +2,7 @@ import { Fragment, useState , useEffect} from "react";
 import { createVideo } from "../../../fetchs/create-video/createVideo";
 import { FormButton } from "../../../components/forms/formButton";
 import { FormInput } from "../../../components/forms/formInput";
+import { useAuth } from "@/context/authContext";
 import { FormSelect } from "../../../components/forms/formSelect";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -32,6 +33,9 @@ interface CreateVideoPopUpProps {
 }
 
 const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup }) => {
+  
+  const { isLoggedIn } = useAuth();
+
   const [formData, setFormData] = useState({
     tema: "",
     usuario: "",
@@ -96,6 +100,8 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
       return "";
     }
   }
+
+  
   
   const [userTokens, setUserTokens] = useState<number | null>(null);
 
@@ -421,18 +427,34 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
         </div>
       )}
 
+      
+
       {userTokens === 0 ? (
         <Alert variant="destructive" className="mt-4">
           <AlertTitle>¡Sin créditos!</AlertTitle>
           <AlertDescription>No tenés tokens disponibles para publicar un video.</AlertDescription>
         </Alert>
       ) : (
+        <h1></h1>
+      )}
+
+      { isLoggedIn === true ? (
         <FormButton className="bg-gradient-to-r from-gray-200 to-gray-300 text-gray-900 font-semibold rounded-lg px-6 py-3 shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:from-gray-300 hover:to-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 w-full mt-4">
           Publish video
         </FormButton>
-      )}
+      ): (
+        <Alert variant="destructive" className="mt-4">
+          <AlertTitle>¡Inicio de sesión requerido!</AlertTitle>
+          <AlertDescription>Necesitas iniciar sesión para hacer un video.</AlertDescription>
+        </Alert>
+      )
+      
+      }
 
-              
+        
+
+
+
             </div>
           </div>
         </form>
