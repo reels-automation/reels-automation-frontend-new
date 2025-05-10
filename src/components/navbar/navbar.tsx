@@ -75,6 +75,14 @@ function Navbar() {
 
     {/* Botones tipo lista */}
     <div className="flex flex-col">
+    <Button
+        variant="ghost"
+        className="justify-start w-full hover:bg-muted px-3 py-2"
+        onClick={() => navigate("/")}
+      >
+        Inicio
+      </Button>
+
       <Button
         variant="ghost"
         className="justify-start w-full hover:bg-muted px-3 py-2"
@@ -99,73 +107,154 @@ function Navbar() {
         <NavbarButton key="register" url="/register" className="text-center">Registrarse</NavbarButton>
       ];
 
-  return (
-    <nav className="bg-gray-200 border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-50">
-      <div className="flex items-center justify-between p-4 mx-auto relative">
-        
-        <NavbarLogo url={home_route} image={logo_image}>
-          Aprendiendo con personajes
-        </NavbarLogo>
-
-        
-
-        {/* Burger button */}
-        <div className="relative">
-          <button 
-            ref={burgerRef}
-            onClick={() => setIsMenuOpen(!isMenuOpen)} 
-            className="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none hover:cursor-pointer"
-          >
-            <svg 
-              className="w-6 h-6" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24" 
-              xmlns="http://www.w3.org/2000/svg"
+      return (
+        <nav className="bg-gray-200 border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-50">
+          <div className="flex items-center justify-between p-4 mx-auto relative">
+            
+            {/* Logo - Solo visible en desktop */}
+            <div className="hidden sm:block" >
+            <NavbarLogo 
+              url={home_route} 
+              image={logo_image}
+     // Oculto en móvil
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                d="M4 6h16M4 12h16M4 18h16" 
-              />
-            </svg>
-          </button>
+              Aprendiendo con personajes
+            </NavbarLogo>
+    
 
-          {/* Popup menu */}
-          {isMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-gray-200 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg z-20">
-              <ul className="flex flex-col py-2 list-none">
-                {/* {startButtons.map((button, index) => (
-                  <li
-                    key={`start-${index}`}
-                    className="px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-700 text-center"
-                  >
-                    <a href={button.props.url} className="block w-full h-full">
-                      {button.props.children}
-                    </a>
-                  </li>
-                ))} */}
-                {endButtons.map((button, index) => (
-                  <li
-                    key={`end-${index}`}
-                    className="px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-700 text-center"
-                  >
-                    <a href={button.props.url} className="block w-full h-full">
-                      {button.props.children}
-                    </a>
-                  </li>
-                ))}
-              </ul>
             </div>
-          )}
-        </div>
+            
+            {/* Avatar móvil - Solo visible cuando está logueado en móvil */}
+            {isLoggedIn && (
+              <div className="sm:hidden ml-2">
+                <Popover>
+                  <PopoverTrigger>
+                    <Avatar className="w-10 h-10">
+                      <AvatarImage src="https://via.placeholder.com/150" alt="User Avatar" />
+                      <AvatarFallback>{user[0]}</AvatarFallback>
+                    </Avatar>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-48 mt-2 mr-2">
+                    <div className="flex flex-col">
+                    <Button
+                        variant="ghost"
+                        className="justify-start"
+                        onClick={() => navigate("/")}
+                      >
+                        Inicio
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="justify-start"
+                        onClick={() => navigate("/mis-videos")}
+                      >
+                        Mis Videos
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="justify-start"
+                        onClick={logout}
+                      >
+                        Cerrar sesión
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            )}
+    
+            {/* Controles derecha */}
+            <div className="flex items-center gap-4">
+              {/* Menú móvil */}
+              <div className="sm:hidden">
+                {!isLoggedIn && (
+                  <button 
+                    onClick={() => setIsMenuOpen(!isMenuOpen)} 
+                    className="text-gray-700 dark:text-gray-300 focus:outline-none"
+                  >
+                    <svg 
+                      className="w-6 h-6" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M4 6h16M4 12h16M4 18h16" 
+                      />
+                    </svg>
+                  </button>
+                )}
+                
+                {/* Menú desplegable móvil */}
+                {isMenuOpen && (
+                  <div className="absolute top-12 right-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
+                    {!isLoggedIn ? (
+                      <>
+                        <NavbarButton 
+                          url="/login" 
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Iniciar Sesión
+                        </NavbarButton>
+                        <NavbarButton 
+                          url="/register" 
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Registrarse
+                        </NavbarButton>
+                      </>
+                    ) : (
+                      <div className="flex flex-col">
+                        <Button
+                          variant="ghost"
+                          className="justify-start"
+                          onClick={() => {
+                            navigate("/");
+                            setIsMenuOpen(false);
+                          }}
+                        >
+                          Inicio
+                        </Button>
 
-        {/* Desktop nav */}
-        <div className="hidden sm:flex sm:items-center">
-          <NavbarButtonsContainer start={startButtons} center={[]} end={endButtons} />
-        </div>
-
-      </div>
-    </nav>
-  );
-}
+                        <Button
+                          variant="ghost"
+                          className="justify-start"
+                          onClick={() => {
+                            navigate("/mis-videos");
+                            setIsMenuOpen(false);
+                          }}
+                        >
+                          Mis Videos
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="justify-start"
+                          onClick={() => {
+                            logout();
+                            setIsMenuOpen(false);
+                          }}
+                        >
+                          Cerrar sesión
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+    
+              {/* Desktop nav */}
+              <div className="hidden sm:flex">
+                <NavbarButtonsContainer end={endButtons} />
+              </div>
+            </div>
+          </div>
+        </nav>
+      );
+    }
 
 export default Navbar;
