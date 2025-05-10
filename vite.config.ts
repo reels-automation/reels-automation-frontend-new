@@ -1,14 +1,21 @@
-import path from "path"
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 import tailwindcss from "@tailwindcss/vite"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import path from 'path'
 
-// https://vite.dev/config/
 export default defineConfig({
+  base: '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
+  },
+  server: {
+allowedHosts:['aprendiendoconpersonajes.duckdns.org'] ,
+          host: '0.0.0.0',  // Esto hace que el servidor esté disponible en todas las interfaces de red
+    port: 5173,        // El puerto por defecto, puede cambiarlo si es necesario
+    open: true,        // Abre el navegador automáticamente al iniciar
+    strictPort: true,  // Si el puerto está en uso, no continuará en otro puerto
   },
 })
