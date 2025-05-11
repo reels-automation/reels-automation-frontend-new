@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState,  useEffect } from "react";
 import NavbarLogo from "./components/navbarLogo";
 import NavbarButton from "./components/navbarButton";
 import NavbarButtonsContainer from "./components/navbarButtonContainer";
@@ -19,7 +19,6 @@ function Navbar() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState("Usuario")
-  const burgerRef = useRef(null);
 
   const logo_image = "https://th.bing.com/th/id/R.39928ef71f5fa16f2c51031b4e182aab?rik=8O1Usrx4O2rbJQ&pid=ImgRaw&r=0";
   const home_route = "/";
@@ -47,9 +46,7 @@ function Navbar() {
       }
     }, []);
 
-  const startButtons = isLoggedIn
-    ? []
-    : [];
+ 
 
   const endButtons = isLoggedIn
     ? [
