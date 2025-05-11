@@ -145,6 +145,14 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
   //const pthVoices = ["HOMERO SIMPSON LATINO"];
   const gameplays = [
     { value: "subway.mp4", label: "Subway Surfers" },
+    { value: "60seconds1.mp4", label: "60 Seconds" },
+    { value: "clash-vertical1.mp4", label: "Clash Royale" },
+    { value: "dbd.mp4", label: "Dead by Daylight" },
+    { value: "flappy-ai.mp4", label: "Flappy Bird" },
+    { value: "gettingoverit.mp4", label: "Getting Over it" },
+    { value: "fortnite.mp4", label: "Fortnite" },
+    { value: "gta.mp4", label: "Gta" },
+    { value: "undertale1.mp4", label: "Undertale" }
 ]; {/*Hacer que sea un value a subway y que despuse del backend se agarren random*/}
 
 
