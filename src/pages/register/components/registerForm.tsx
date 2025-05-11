@@ -30,6 +30,8 @@ const RegisterForm = ({ onSubmit, error }: RegisterFormProps) => {
   };
 
   return (
+    <div className='mt-20'>
+
     <AuthFormLayout title="Crea tu cuenta">
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
 
@@ -77,6 +79,8 @@ const RegisterForm = ({ onSubmit, error }: RegisterFormProps) => {
         <SignInPrompt />
       </form>
     </AuthFormLayout>
+    </div>
+
   );
 };
 

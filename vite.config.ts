@@ -11,6 +11,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  define: {
+    'process.env': {},
+    'import.meta.env': JSON.stringify(process.env)
+  },
   server: {
 allowedHosts:['aprendiendoconpersonajes.duckdns.org'] ,
           host: '0.0.0.0',  // Esto hace que el servidor esté disponible en todas las interfaces de red

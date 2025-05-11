@@ -187,9 +187,17 @@ function Navbar() {
                 
                 {/* Menú desplegable móvil */}
                 {isMenuOpen && (
-                  <div className="absolute top-12 right-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
+                  <div className="absolute top-12 left-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
                     {!isLoggedIn ? (
                       <>
+                      <NavbarButton 
+                          url="/" 
+                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Inicio
+                        </NavbarButton>
+
                         <NavbarButton 
                           url="/login" 
                           className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
