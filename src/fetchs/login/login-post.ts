@@ -2,6 +2,10 @@ import { API_URL } from "../api";
 //import { useAuth } from "../../context/authContext";
 
 export const loginPost = async (route: string, username: string, password: string) => {
+  
+  console.log("asda ")
+  console.log(`${API_URL}${route}`)
+
   try {
     const response = await fetch(`${API_URL}${route}`, {
       method: "POST",
