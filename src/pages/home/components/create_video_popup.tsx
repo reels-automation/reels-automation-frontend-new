@@ -150,7 +150,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
     { value: "dbd.mp4", label: "Dead by Daylight" },
     { value: "flappy-ai.mp4", label: "Flappy Bird" },
     { value: "gettingoverit.mp4", label: "Getting Over it" },
-    { value: "fortnite.mp4", label: "Fortnite" },
     { value: "gta.mp4", label: "Gta" },
     { value: "undertale1.mp4", label: "Undertale" }
 ]; {/*Hacer que sea un value a subway y que despuse del backend se agarren random*/}
