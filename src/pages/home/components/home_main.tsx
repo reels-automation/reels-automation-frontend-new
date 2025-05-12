@@ -80,7 +80,7 @@ const HomeMain = () => {
   const openPopup = () => setIsPopupOpen(true);
 
   useEffect(() => {
-    let time;
+    let time:NodeJS.Timeout;
   
     if (isPopOver) {
       time = setInterval(() => {
