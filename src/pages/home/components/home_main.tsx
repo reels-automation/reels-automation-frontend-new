@@ -1,10 +1,14 @@
 import { Fragment } from "react/jsx-runtime";
 import CreateVideoPopUp from "./create_video_popup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button"
 import { initMercadoPago } from "@mercadopago/sdk-react";
 import { API_URL } from "@/fetchs/api";
-
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 
 const production = "APP_USR-e4f8400d-98d6-482d-bac8-96499e2195e2"
 // const development = "APP_USR-37599c5e-4881-4651-a0c8-e3383bb9f31e"
@@ -59,10 +63,44 @@ async function handlePayment() {
 }
 const HomeMain = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopOver, setPopOver] = useState(false);
+  const [seconds, setSeconds] = useState(0)
+
+  const maxTime = 10;
+
+  function closePopUp(){
+    setIsPopupOpen(false)
+  }
+
+  function closePopUpMEssage(){
+    setIsPopupOpen(false)
+    setPopOver(true)
+  }
 
   const openPopup = () => setIsPopupOpen(true);
 
-  const closePopup = () => setIsPopupOpen(false);
+  useEffect(() => {
+    let time;
+  
+    if (isPopOver) {
+      time = setInterval(() => {
+        setSeconds((prevSeconds) => {
+          const newSeconds = prevSeconds + 1;
+          if (newSeconds === maxTime) {
+            setPopOver(false);
+          }
+          return newSeconds;
+        });
+      }, 1000);
+    }
+  
+    return () => {
+      if (time) {
+        clearInterval(time);
+      }
+    };
+  }, [isPopOver]); // Only depend on isPopOver
+
 
   return (
     <Fragment>
@@ -75,6 +113,19 @@ const HomeMain = () => {
         <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl mt-4 mb-2 text-center">
           APRENDIENDO CON PERSONAJES
         </h1>
+
+        {isPopOver === true ? (
+          
+          <Alert className="mt-4 bg-green-100 border-green-400 text-green-700 w-96 text-center">
+          <AlertTitle className="font-bold" >Video Creado !</AlertTitle>
+          <AlertDescription className="font-bold" >Ya se ha creado tu video</AlertDescription>
+          <AlertDescription>En breve lo veras en la seccion "Mis videos"</AlertDescription>
+          <AlertDescription>Este mensaje desaparecera en: {maxTime - seconds}</AlertDescription>
+        </Alert>
+        ): (
+          <h2></h2>
+        )
+        }
 
         <div className="grid grid-cols-3 gap-4 w-full max-w-xl mt-4 mb-4">
           <div></div>
@@ -100,7 +151,7 @@ const HomeMain = () => {
               </Button>
             </div>
         </div>
-        <CreateVideoPopUp isOpen={isPopupOpen} closePopup={closePopup} />
+        <CreateVideoPopUp isOpen={isPopupOpen} closePopup={closePopUp} closePopupMessage={closePopUpMEssage} />
       </div>
     </Fragment>
   );

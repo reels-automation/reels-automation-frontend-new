@@ -30,9 +30,10 @@ import {
 interface CreateVideoPopUpProps {
   isOpen: boolean;
   closePopup: () => void;
+  closePopupMessage: () => void;
 }
 
-const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup }) => {
+const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup, closePopupMessage }) => {
   
   const { isLoggedIn } = useAuth();
 
@@ -101,8 +102,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
     }
   }
 
-  
-  
+
   const [userTokens, setUserTokens] = useState<number | null>(null);
 
   async function getTokensFromUser() {
@@ -232,8 +232,8 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
         gpt_model: "",
       });
   
-      // También puedes cerrar el popup automáticamente si quieres:
-       closePopup();
+       closePopupMessage();
+
     } catch (error) {
       console.error("Error creating video:", error);
     }
@@ -456,11 +456,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup 
       )
       
       }
-
-        
-
-
-
             </div>
           </div>
         </form>
