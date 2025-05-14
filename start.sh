@@ -6,7 +6,7 @@ then
 
 elif [ $1 -eq 2 ]
 then
-    cp .env.depoloyment .env
+    cp .env.deployment .env
 
 fi
 

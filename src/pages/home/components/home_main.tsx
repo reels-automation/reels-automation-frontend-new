@@ -10,10 +10,11 @@ import {
   AlertTitle,
 } from "@/components/ui/alert";
 
-const production = "APP_USR-e4f8400d-98d6-482d-bac8-96499e2195e2"
-// const development = "APP_USR-37599c5e-4881-4651-a0c8-e3383bb9f31e"
+export const PUBLIC_KEY_MP = import.meta.env.VITE_PUBLIC_KEY_MP;
 
-initMercadoPago(production, {
+console.log("caca ", PUBLIC_KEY_MP)
+
+initMercadoPago(PUBLIC_KEY_MP, {
   locale: "es-AR",
 });
 
