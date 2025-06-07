@@ -39,17 +39,17 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
 
   const [formData, setFormData] = useState({
     tema: "",
-    usuario: "",
-    idioma: "",
-    personaje: "",
-    script: "",
+    usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
+    idioma: "es",
+    personaje: "Homero Simpson",
+    script: "Pequeño script de prueba. DOUUU!!!!",
     audio_item: [
       {
         tts_audio_name: "",
         tts_audio_directory: "",
         file_getter: "",
         pitch: 0,
-        tts_voice: "",
+        tts_voice: "es-ES-XimenaNeural",
         tts_rate: 0,
         pth_voice: "HOMERO SIMPSON LATINO",
       },
@@ -62,7 +62,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
       },
     ],
     author: "",
-    gameplay_name: "",
+    gameplay_name: "subway.mp4",
     background_music: [
       {
         audio_name: "",
@@ -83,7 +83,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     ],
     random_images: true,
     random_amount_images: 5,
-    gpt_model: "",
+    gpt_model: "mistral:latest",
   });
 
   function getSubFromToken(): string  {
@@ -185,17 +185,17 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
       // Reiniciar el formulario a sus valores iniciales
       setFormData({
         tema: "",
-        usuario: "",
-        idioma: "",
-        personaje: "",
-        script: "",
+        usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
+        idioma: "es",
+        personaje: "Homero Simpson",
+        script: "Pequeño script de prueba. DOUUU!!!!",
         audio_item: [
           {
             tts_audio_name: "",
             tts_audio_directory: "",
             file_getter: "",
             pitch: 0,
-            tts_voice: "",
+            tts_voice: "es-ES-XimenaNeural",
             tts_rate: 0,
             pth_voice: "HOMERO SIMPSON LATINO",
           },
@@ -208,7 +208,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
           },
         ],
         author: "",
-        gameplay_name: "",
+        gameplay_name: "subway.mp4",
         background_music: [
           {
             audio_name: "",
@@ -229,7 +229,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
         ],
         random_images: true,
         random_amount_images: 5,
-        gpt_model: "",
+        gpt_model: "mistral:latest",
       });
   
        closePopupMessage();
@@ -282,53 +282,55 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
 
               <h2 className="text-xl text-center mb-6">Configura tu video</h2>
 
-              {/*Secciion del tema*/}
-              <div className="w-full max-w-2xl bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Seleccion de tema</h2>
+            <div className="w-full max-w-2xl bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+  <h2 className="text-lg font-semibold text-gray-800 mb-4">¿Qué querés hacer?</h2>
 
-              <div className="flex items-center mb-4">
-        <Label htmlFor="toggleTemaScript" className="mr-2">
-          Tema / Script
-        </Label>
-        <Switch
-          id="toggleTemaScript"
-          checked={isTema}
-          onCheckedChange={handleSwitchChange} // Cambia el estado cuando se hace clic en el Switch
-        />
-      </div>
+  <div className="flex items-center mb-4">
+    <Label htmlFor="toggleTemaScript" className="mr-2">
+      Modo
+    </Label>
+    <Switch
+      id="toggleTemaScript"
+      checked={isTema}
+      onCheckedChange={handleSwitchChange}
+    />
+    <span className="ml-3 text-sm text-gray-600">
+      {isTema ? 'Crear texto desde tema' : 'Leer un guión en voz alta'}
+    </span>
+  </div>
 
-            {isTema ? (
-        <div className="grid w-full max-w-sm items-center gap-1.5 mb-4 mt-4">
-          <Label htmlFor="tema">Tema</Label>
-          <Input
-            className="rounded-lg bg-gray-50 shadow-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
-            type="text"
-            id="tema"
-            placeholder="Tema"
-            value={formData.tema}
-            onChange={(e) => setFormData({ ...formData, tema: e.target.value })}
-          />
-        </div>
-      ) : (
-        <div className="grid w-full max-w-sm items-center gap-1.5 mb-4 mt-4">
-          <Label htmlFor="script">Script</Label>
-          <Textarea
-            className="rounded-lg bg-gray-50 shadow-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
-            id="script"
-            placeholder="Escribe el script"
-            value={formData.script}
-            onChange={(e) => setFormData({ ...formData, script: e.target.value })}
-          />
-        </div>
-      )}
+  {isTema ? (
+    <div className="grid w-full max-w-sm items-start gap-1.5 mb-4 mt-4">
+      <Label htmlFor="tema">Escribí un tema</Label>
+      <p className="text-sm text-gray-500 mb-1">
+        El bot generará automáticamente un texto basado en este tema.
+      </p>
+      <Input
+        className="rounded-lg bg-gray-50 shadow-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
+        type="text"
+        id="tema"
+        placeholder="Ej: El futuro de la inteligencia artificial"
+        value={formData.tema}
+        onChange={(e) => setFormData({ ...formData, tema: e.target.value })}
+      />
+    </div>
+  ) : (
+    <div className="grid w-full max-w-sm items-start gap-1.5 mb-4 mt-4">
+      <Label htmlFor="script">Escribí tu guión</Label>
+      <p className="text-sm text-gray-500 mb-1">
+        El bot leerá este texto en voz alta exactamente como lo escribas.
+      </p>
+      <Textarea
+        className="rounded-lg bg-gray-50 shadow-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
+        id="script"
+        placeholder="Hola, bienvenidos a este nuevo video..."
+        value={formData.script}
+        onChange={(e) => setFormData({ ...formData, script: e.target.value })}
+      />
+    </div>
+  )}
+</div>
 
-
-              <div className="grid w-full max-w-sm items-center gap-1.5 mb-4 mt-4">
-                <Label htmlFor="autor">Autor</Label>
-                <Input className="rounded-lg bg-gray-50 shadow-sm focus:ring-2 focus:ring-rose-400 focus:outline-none" type="text" id="autor" placeholder="Autor" value={formData.author} onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                />
-              </div>
-            </div>
             
             {/*Seccion del video*/}
 
