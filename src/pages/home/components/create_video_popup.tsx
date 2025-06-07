@@ -42,7 +42,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
     idioma: "es",
     personaje: "Homero Simpson",
-    script: "Pequeño script de prueba. DOUUU!!!!",
+    script: "",
     audio_item: [
       {
         tts_audio_name: "",
@@ -188,7 +188,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
         usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
         idioma: "es",
         personaje: "Homero Simpson",
-        script: "Pequeño script de prueba. DOUUU!!!!",
+        script: "",
         audio_item: [
           {
             tts_audio_name: "",
