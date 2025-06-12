@@ -51,7 +51,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
         pitch: 0,
         tts_voice: "es-ES-XimenaNeural",
         tts_rate: 0,
-        pth_voice: "HOMERO SIMPSON LATINO",
+        pth_voice: "homero",
       },
     ],
     subtitle_item: [
@@ -161,13 +161,16 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
   ];
 
   const personajes = [
-    { value: "Homero Simpson", label: "Homero Simpson" },
+    { value: "homero", label: "Homero Simpson" },
+    { value: "peter_griffin", label: "Peter Griffin" },
   ];
 
   const gptModels = [
     { value: "llama3.2:3b", label: "Llama" },
     { value: "mistral:latest", label: "Mistral" },    
   ]
+
+  
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -197,7 +200,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
             pitch: 0,
             tts_voice: "es-ES-XimenaNeural",
             tts_rate: 0,
-            pth_voice: "HOMERO SIMPSON LATINO",
+            pth_voice: "homero",
           },
         ],
         subtitle_item: [
@@ -360,7 +363,22 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     {/* Contenedor para el select de Personaje */}
     <div className="mb-2">
       <Label htmlFor="personaje">Personaje</Label>
-      <Select value={formData.personaje} onValueChange={(value) => setFormData({ ...formData, personaje: value })}>
+          <Select
+          value={formData.personaje}
+          onValueChange={(value) => {
+            setFormData((prev) => ({
+              ...prev,
+              personaje: value,
+              audio_item: [
+                {
+                  ...prev.audio_item[0],
+                  pth_voice: value, // usa el mismo value del personaje
+                },
+              ],
+            }));
+          }}
+        >
+
         <SelectTrigger>
           <SelectValue placeholder="Personaje" />
         </SelectTrigger>
