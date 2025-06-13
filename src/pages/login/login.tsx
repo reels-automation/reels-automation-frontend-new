@@ -43,7 +43,6 @@ const Login = () => {
 
   return (
     <Fragment>
-      <Navbar></Navbar>
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow">
           <LoginForm onSubmit={handleLogin} error={isError ? errorMessage : null} />

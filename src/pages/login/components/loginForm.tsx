@@ -30,8 +30,6 @@ const LoginForm = ({ onSubmit, error }: LoginFormProps) => {
 
   return (
 
-    <div className='mt-20'>
-
    
     <AuthFormLayout title="Inicia sesión en tu cuenta">
       <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
@@ -70,7 +68,6 @@ const LoginForm = ({ onSubmit, error }: LoginFormProps) => {
         <SignUpPrompt />
       </form>
     </AuthFormLayout>
-    </div>
   );
 };
 

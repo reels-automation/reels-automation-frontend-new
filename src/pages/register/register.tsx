@@ -40,10 +40,8 @@ const Register = () => {
 
   return (
     <Fragment>
-
-      <Navbar />
+      
       <RegisterForm onSubmit={handleRegister} error={isError ? errorMessage : null} />
-  
       
     </Fragment>
   );

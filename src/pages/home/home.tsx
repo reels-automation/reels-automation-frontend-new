@@ -1,7 +1,8 @@
 import Navbar from "../../components/navbar/navbar";
 import Footer from "../../components/footer/footer";
 import HomeMain from "./components/home_main";
-
+import { useAuth } from "@/context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   return (
