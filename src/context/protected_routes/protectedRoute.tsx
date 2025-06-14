@@ -1,27 +1,18 @@
-import { useAuth } from "@/context/authContext";
-import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { ProtectedRouteProps } from "./prInterface";
+import { useAuth } from "../authContext";
 
-// boiler
-const NotGuestRoute : React.FC<ProtectedRouteProps> = ({ exceptRoutes = [] }) => {
+const NotGuestRoute: React.FC<ProtectedRouteProps> = ({ exceptRoutes = [], children }) => {
   const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
-  const currentRoute = window.location.pathname;
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!isLoggedIn && !exceptRoutes.includes(currentRoute)) {
-      navigate("/guest");
-    }
-  }, [isLoggedIn, currentRoute, exceptRoutes, navigate]);
+  const currentRoute = location.pathname;
 
-  /*
-  if (isLoggedIn || exceptRoutes.includes(currentRoute)) {
-    return <>{children}</>;
+  if (!isLoggedIn && !exceptRoutes.includes(currentRoute)) {
+    return <Navigate to="/guest" replace />;
   }
-  */
 
-  return null;
+  return <>{children}</>;
 };
 
 export default NotGuestRoute;

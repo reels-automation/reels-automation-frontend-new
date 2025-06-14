@@ -2,7 +2,7 @@ npx shadcn@latest add button
 
 https://tailwindcss.com/docs/colors
 
-Login: Como twitter, el logo + el nombre. DEl otro lado, formulario de login/ SIGNUP. 
+✅ Login: Como twitter, el logo + el nombre. DEl otro lado, formulario de login/ SIGNUP. 
     cambiar el componente o renderizar la pagina.
     
 

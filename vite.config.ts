@@ -16,8 +16,8 @@ export default defineConfig({
     'import.meta.env': JSON.stringify(process.env)
   },
   server: {
-allowedHosts:['aprendiendoconpersonajes.duckdns.org'] ,
-          host: '0.0.0.0',  // Esto hace que el servidor esté disponible en todas las interfaces de red
+    allowedHosts:['aprendiendoconpersonajes.duckdns.org'] ,
+    host: '0.0.0.0',  // Esto hace que el servidor esté disponible en todas las interfaces de red
     port: 5173,        // El puerto por defecto, puede cambiarlo si es necesario
     open: true,        // Abre el navegador automáticamente al iniciar
     strictPort: true,  // Si el puerto está en uso, no continuará en otro puerto
