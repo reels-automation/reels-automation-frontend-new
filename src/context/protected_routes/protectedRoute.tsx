@@ -1,8 +1,8 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { ProtectedRouteProps } from "./prInterface";
 import { useAuth } from "../authContext";
 
-const NotGuestRoute: React.FC<ProtectedRouteProps> = ({ exceptRoutes = [], children }) => {
+const NotGuestRoute: React.FC<ProtectedRouteProps> = ({ exceptRoutes = [] }) => {
   const { isLoggedIn } = useAuth();
   const location = useLocation();
 
@@ -12,7 +12,7 @@ const NotGuestRoute: React.FC<ProtectedRouteProps> = ({ exceptRoutes = [], child
     return <Navigate to="/guest" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 };
 
 export default NotGuestRoute;
