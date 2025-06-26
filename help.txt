@@ -1,3 +1,0 @@
-npx shadcn@latest add button
-
-https://tailwindcss.com/docs/colors
