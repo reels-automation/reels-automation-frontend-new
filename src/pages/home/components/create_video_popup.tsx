@@ -15,8 +15,7 @@ import {
   AlertTitle,
 } from "@/components/ui/alert";
 
-import getApiUrl from "@/fetchs/api";
-
+import { API_URL } from "@/fetchs/api";
 import {
   Select,
   SelectContent,
@@ -107,7 +106,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
 
   async function getTokensFromUser() {
     try {
-      const API_URL = await getApiUrl();
       const response = await fetch(`${API_URL}/user-tokens`, {
         method: "POST",
         headers: {

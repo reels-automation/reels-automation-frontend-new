@@ -1,4 +1,4 @@
-import getApiUrl from "../api";
+import { API_URL } from "../api";
 //import { useAuth } from "../../context/authContext";
 
 export const loginPost = async (route: string, username: string, password: string) => {
@@ -8,7 +8,6 @@ export const loginPost = async (route: string, username: string, password: strin
   }
 
   try {
-    const API_URL = await getApiUrl();
     const endpoint = `${API_URL}${route}`;
     console.log("Calling endpoint:", endpoint);
 

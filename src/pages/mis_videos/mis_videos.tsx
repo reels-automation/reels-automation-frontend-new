@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import getApiUrl from "@/fetchs/api";
+import { API_URL } from "@/fetchs/api";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navbar from "../../components/navbar/navbar";
@@ -80,7 +80,6 @@ const MisVideos = () => {
 
     const fetchVideos = async () => {
       try {
-        const API_URL = await getApiUrl();
         const res = await fetch(`${API_URL}/get-videos-user`, {
           method: "POST",
           headers: {
