@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "VITE_API_URL is: $VITE_API_URL"
+
 cat <<EOF > /usr/share/nginx/html/config.json
 {
   "API_URL": "${VITE_API_URL}"
