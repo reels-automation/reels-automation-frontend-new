@@ -1,1 +1,14 @@
-export const API_URL = import.meta.env.VITE_API_URL;
+// api.ts
+import { getRuntimeConfig } from "@/runtimeConfig";
+
+let cachedApiUrl: string | null = null;
+
+async function getApiUrl(): Promise<string> {
+  if (!cachedApiUrl) {
+    const config = await getRuntimeConfig();
+    cachedApiUrl = config.API_URL;
+  }
+  return cachedApiUrl;
+}
+
+export default getApiUrl;

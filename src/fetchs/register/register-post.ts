@@ -1,6 +1,7 @@
-import { API_URL } from "../api";
+import getApiUrl from "../api";
 
 export const registerPost = async (route: string, username: string, email: string, password: string) => {
+    const API_URL = await getApiUrl();
     const response = await fetch(`${API_URL}${route}`, {
         method: "POST",
         headers: {
