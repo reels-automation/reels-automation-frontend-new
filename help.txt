@@ -1,0 +1,33 @@
+npx shadcn@latest add button
+
+https://tailwindcss.com/docs/colors
+
+✅ Login: Como twitter, el logo + el nombre. DEl otro lado, formulario de login/ SIGNUP. 
+    cambiar el componente o renderizar la pagina.
+    
+
+Entrar como invitado: Todo desactivado y que en el header este logo de avatar qye te redirija al main para incicar sesion / registrarte.
+
+✅ Elegir una sola fuente y que esté en toda la página , ej: GEIST. -> Si no está GEIST, que vaya a Roboto.
+
+Crear un slogan con chat gpt.
+
+v0 -> Pedirle que me cree un estilo para la aplicación. 
+
+Titulo muy grande , no poner nombre en el header (o hacerlo más grande). Poner el logo de homero. Font más chica.  Logo más grande q el nombre.
+
+Favicon
+
+CAMBIAR LOGO, COPYRIGHT
+
+
+FORM:
+    HACERLO MAS ancho
+    hacer un footer para el form, se ve siempre el boton de publicar y los errores.
+    Lo que es SCROLLEABLE, serían el contenido de los inputs
+    
+MIS VIDEOS:
+     SIDEBAR CON LOS TITULOS DE LOS VIDEOS Y A LA DERECHA EL CONTENIDO DEL VIDEO. 
+    - TITULO DE VIDEO
+    - CONTENEDOR DE VIDEO
+    - DETALLES DEL VIDEO.
