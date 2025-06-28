@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Link } from "react-router-dom"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle, Eye, EyeOff } from "lucide-react"
+import { AlertCircle, Loader2 } from "lucide-react"
+import EyePassword from "@/components/eye_password/eye_password"
 import type React from "react"
 import HomeButton from "@/components/home_button/home_button"
 
@@ -20,6 +21,7 @@ const Register = () => {
   const { isLoggedIn } = useAuth()
   const [isError, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const Register = () => {
   }, [isLoggedIn, navigate])
 
   const handleRegister = async (username: string, email: string, password: string) => {
+    setIsLoading(true)
     try {
       const result = await registerPost("/register", username, email, password)
       console.log("Register success:", result)
@@ -44,6 +47,8 @@ const Register = () => {
       } else {
         setErrorMessage("An unknown error occurred.")
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -121,25 +126,23 @@ const Register = () => {
                             className="h-10 sm:h-12 px-3 sm:px-4 pr-10 sm:pr-12 text-sm sm:text-base border-gray-300 focus:border-green-500 focus:ring-green-500"
                             required
                           />
-                          <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
-                          >
-                            {showPassword ? (
-                              <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" />
-                            ) : (
-                              <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
-                            )}
-                          </button>
+                          <EyePassword showPassword={showPassword} setShowPassword={setShowPassword} />
                         </div>
                       </div>
 
                       <Button
                         type="submit"
-                        className="w-full h-10 sm:h-12 bg-gradient-to-r bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm sm:text-base mt-4 sm:mt-6"
+                        disabled={isLoading}
+                        className="w-full h-10 sm:h-12 bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm sm:text-base mt-4 sm:mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Registrarse
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Registrando...
+                          </>
+                        ) : (
+                          "Registrarse"
+                        )}
                       </Button>
 
                       {isError && errorMessage && (

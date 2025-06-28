@@ -21,7 +21,7 @@ export const loginPost = async (route: string, username: string, password: strin
       const errorData = await response.json().catch(() => ({}));
       throw new Error(
         errorData.detail || 
-        `HTTP error! status: ${response.status}`
+        `HTTP error. Status: ${response.status}`
       );
     }
 
