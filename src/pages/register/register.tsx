@@ -75,8 +75,8 @@ const Register = () => {
         <div className="h-full w-full bg-white/10 backdrop-blur-sm rounded-lg">
           {/* STACK MODEL: Contenido apilado verticalmente en móvil */}
           <div className="flex flex-col lg:flex-row h-full">
-            {/* Formulario - 3/4 en móvil, 1/2 en desktop */}
-            <div className="w-full lg:w-1/2 flex-1 lg:h-full flex items-center justify-center p-4 sm:p-6 lg:p-8 order-2 lg:order-1">
+            {/* Formulario */}
+            <div className="w-full lg:w-1/2 flex-1 lg:h-full flex items-center justify-center lg:mr-5 lg:justify-end p-4 sm:p-6 order-2 lg:order-1 lg:p-8 lg:pr-4">
               <div className="w-full max-w-sm sm:max-w-md lg:max-w-md">
                 <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-0">
                   <CardHeader className="pb-6">
@@ -170,8 +170,8 @@ const Register = () => {
               </div>
             </div>
 
-            {/* Contenido adicional - 1/4 en móvil, 1/2 en desktop */}
-            <div className="w-full lg:w-1/2 flex-shrink-0 lg:h-full flex items-center justify-center p-4 sm:p-6 lg:p-8 order-1 lg:order-2">
+            {/* Contenido adicional */}
+            <div className="w-full lg:w-1/2 flex-shrink-0 min-h-0 lg:h-full flex items-center lg:ml-5 lg:justify-start justify-center py-2 sm:py-3 lg:py-8 lg:pl-4 order-1 lg:order-2">
               <div className="text-center text-white">
                 <h2 className="text-lg sm:text-2xl lg:text-4xl font-bold mb-1 sm:mb-2 lg:mb-6">Únete a nosotros</h2>
                 <p className="text-xs sm:text-sm lg:text-xl text-white/80 mb-2 sm:mb-4 lg:mb-8 max-w-md">
