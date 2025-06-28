@@ -12,6 +12,7 @@ import { Link } from "react-router-dom"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, Eye, EyeOff } from "lucide-react"
 import type React from "react"
+import HomeButton from "@/components/home_button/home_button"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -64,6 +65,7 @@ const Register = () => {
 
   return (
     <div className="h-screen w-full bg-gradient-to-br from-green-600 via-blue-600 to-purple-800">
+      <HomeButton />
       <div className="h-screen w-full p-2.5">
         <div className="h-full w-full bg-white/10 backdrop-blur-sm rounded-lg">
           {/* STACK MODEL: Contenido apilado verticalmente en móvil */}

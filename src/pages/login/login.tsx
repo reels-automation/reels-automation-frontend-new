@@ -10,6 +10,7 @@ import { Link } from "react-router-dom"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, Eye, EyeOff } from "lucide-react"
 import type React from "react"
+import HomeButton from "@/components/home_button/home_button"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -57,6 +58,8 @@ const Login = () => {
 
   return (
     <div className="h-screen w-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800">
+      <HomeButton />
+      {/* Contenedor principal con fondo y efecto de desenfoque */}
       <div className="h-screen w-full p-2.5">
         <div className="h-full w-full bg-white/10 backdrop-blur-sm rounded-lg">
           {/* STACK MODEL: Contenido apilado verticalmente en móvil */}
