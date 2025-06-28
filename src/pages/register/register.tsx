@@ -64,7 +64,7 @@ const Register = () => {
   }
 
   return (
-    <div className="h-screen w-full bg-gradient-to-br from-green-600 via-blue-600 to-purple-800">
+    <div className="h-screen w-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800">
       <HomeButton />
       <div className="h-screen w-full p-2.5">
         <div className="h-full w-full bg-white/10 backdrop-blur-sm rounded-lg">
@@ -137,7 +137,7 @@ const Register = () => {
 
                       <Button
                         type="submit"
-                        className="w-full h-10 sm:h-12 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-medium text-sm sm:text-base mt-4 sm:mt-6"
+                        className="w-full h-10 sm:h-12 bg-gradient-to-r bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm sm:text-base mt-4 sm:mt-6"
                       >
                         Registrarse
                       </Button>
@@ -156,7 +156,7 @@ const Register = () => {
                         ¿Ya tienes una cuenta?{" "}
                         <Link
                           to="/login"
-                          className="text-green-600 hover:text-green-800 font-medium hover:underline transition-colors"
+                          className="text-indigo-600 hover:text-indigo-800 font-medium hover:underline transition-colors"
                         >
                           Inicia sesión
                         </Link>

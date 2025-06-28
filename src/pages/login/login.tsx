@@ -119,7 +119,7 @@ const Login = () => {
 
                       <Button
                         type="submit"
-                        className="w-full h-10 sm:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium text-sm sm:text-base mt-4 sm:mt-6"
+                        className="w-full h-10 sm:h-12 bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm sm:text-base mt-4 sm:mt-6"
                       >
                         Iniciar sesión
                       </Button>
@@ -138,7 +138,7 @@ const Login = () => {
                         ¿No tienes una cuenta?{" "}
                         <Link
                           to="/register"
-                          className="text-blue-600 hover:text-blue-800 font-medium hover:underline transition-colors"
+                          className="text-indigo-600 hover:text-indigo-800 font-medium hover:underline transition-colors"
                         >
                           Regístrate
                         </Link>
