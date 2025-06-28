@@ -14,6 +14,7 @@ import { AlertCircle, Loader2 } from "lucide-react"
 import EyePassword from "@/components/eye_password/eye_password"
 import type React from "react"
 import HomeButton from "@/components/home_button/home_button"
+import { loginPost } from "../../fetchs/login/login-post"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -36,9 +37,12 @@ const Register = () => {
     try {
       const result = await registerPost("/register", username, email, password)
       console.log("Register success:", result)
+      const token = await loginPost("/login", username, password)
+      console.log("Login success:", token)
       setError(false)
       setErrorMessage(null)
-      navigate("/login") // Redirigir al login después del registro exitoso
+      navigate("/?registered=true")
+      window.location.reload()
     } catch (error: unknown) {
       console.error("Register error:", error)
       setError(true)

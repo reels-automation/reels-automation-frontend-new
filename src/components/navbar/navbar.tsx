@@ -105,7 +105,7 @@ function Navbar() {
       ];
 
       return (
-        <nav className="bg-gray-200 border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-50">
+        <nav className="bg-gray-200 border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-40">
           <div className="flex items-center justify-between p-4 mx-auto relative">
             
             {/* Logo - Solo visible en desktop */}
@@ -187,7 +187,7 @@ function Navbar() {
                 
                 {/* Menú desplegable móvil */}
                 {isMenuOpen && (
-                  <div className="absolute top-12 left-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
+                  <div className="absolute top-12 left-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-40">
                     {!isLoggedIn ? (
                       <>
                       <NavbarButton 
