@@ -37,23 +37,24 @@ const Home = () => {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Alerta de éxito */}
+    <div className="min-h-screen bg-gray-50">
+      {/* Success Alert */}
       <div
-        className={`absolute top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
+        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
           showSuccessAlert ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
         }`}
       >
-        <Alert className="bg-green-50 border-green-200 text-green-800 shadow-lg min-w-96">
-          <CheckCircle className="h-4 w-4 text-green-600" />
-          <AlertTitle className="text-green-800">{successTitle}</AlertTitle>
-          <AlertDescription className="text-green-700">
+        <Alert className="bg-white border-emerald-200 text-emerald-800 shadow-lg min-w-96">
+          <CheckCircle className="h-4 w-4 text-emerald-600" />
+          <AlertTitle className="text-emerald-800 font-semibold">{successTitle}</AlertTitle>
+          <AlertDescription className="text-emerald-700">
             {successMessage}
           </AlertDescription>
         </Alert>
       </div>
+      
       <Navbar />
-      <main className="flex-grow px-4 py-8 mt-10">
+      <main className="flex-grow px-4 py-8">
         <HomeMain />
       </main>
       <Footer />

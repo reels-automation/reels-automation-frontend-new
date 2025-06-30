@@ -1,22 +1,18 @@
 import { Fragment, useState , useEffect} from "react";
 import { createVideo } from "../../../fetchs/create-video/createVideo";
-import { FormButton } from "../../../components/forms/formButton";
-import { FormInput } from "../../../components/forms/formInput";
 import { useAuth } from "@/context/authContext";
-//import { FormSelect } from "../../../components/forms/formSelect";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-//import { AlertCircle } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { X, Sparkles, User, Globe, Gamepad2, Image, Settings } from "lucide-react";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert";
-
 import { API_URL } from "@/fetchs/api";
-
 import {
   Select,
   SelectContent,
@@ -24,8 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-//import { decode } from "punycode";
-
 
 interface CreateVideoPopUpProps {
   isOpen: boolean;
@@ -41,7 +35,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     tema: "",
     usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
     idioma: "es",
-    personaje: "Homero Simpson",
+    personaje: "homero",
     script: "",
     audio_item: [
       {
@@ -88,25 +82,25 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
 
   function getSubFromToken(): string  {
     try {
-      const token = localStorage.getItem("authToken"); // Cambia esto por tu clave real
+      const token = localStorage.getItem("authToken");
       if (!token) return "";
   
       const payload = token.split(".")[1];
       const decoded = JSON.parse(atob(payload));
 
       console.log("decoded sub:", decoded.sub)  
-      return decoded.sub; // Esto ahora se espera que sea string (UUID)
+      return decoded.sub;
     } catch (err) {
       console.error("Error decoding token", err);
       return "";
     }
   }
 
-
   const [userTokens, setUserTokens] = useState<number | null>(null);
 
   async function getTokensFromUser() {
     try {
+      setIsLoading(true);
       const response = await fetch(`${API_URL}/user-tokens`, {
         method: "POST",
         headers: {
@@ -120,6 +114,8 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     } catch (err) {
       console.error("Error fetching tokens", err);
       setUserTokens(0);
+    } finally {
+      setIsLoading(false);
     }
   }
   
@@ -132,17 +128,24 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
       }
     }
   }, [isOpen]);
-  
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isOpen]);
 
   const [isTema, setIsTema] = useState(false);
   
   const handleSwitchChange = () => {
-    setIsTema(prevState => !prevState); // Alterna el estado entre 'tema' y 'script'
+    setIsTema(prevState => !prevState);
   };
 
-  //const characters = ["Homero Simpson"];
- // const voices = ["es-ES-XimenaNeural", "es-MX-JorgeNeural"];
-  //const pthVoices = ["HOMERO SIMPSON LATINO"];
   const gameplays = [
     { value: "subway.mp4", label: "Subway Surfers" },
     { value: "60seconds1.mp4", label: "60 Seconds" },
@@ -152,8 +155,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     { value: "gettingoverit.mp4", label: "Getting Over it" },
     { value: "gta.mp4", label: "Gta" },
     { value: "undertale1.mp4", label: "Undertale" }
-]; {/*Hacer que sea un value a subway y que despuse del backend se agarren random*/}
-
+  ];
 
   const idiomas = [
     { value: "es", label: "Español" },
@@ -170,27 +172,26 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     { value: "mistral:latest", label: "Mistral" },    
   ]
 
-  
-
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closePopup();
-      console.log("Clicked outside the popup");
     }
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await createVideo(formData);
       console.log("Submitting:", formData);
-  
       // Reiniciar el formulario a sus valores iniciales
       setFormData({
         tema: "",
         usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
         idioma: "es",
-        personaje: "Homero Simpson",
+        personaje: "homero",
         script: "",
         audio_item: [
           {
@@ -234,14 +235,13 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
         random_amount_images: 5,
         gpt_model: "mistral:latest",
       });
-  
-       closePopupMessage();
-
+      closePopupMessage();
     } catch (error) {
       console.error("Error creating video:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
-  
 
   const changeIdioma = (value: string) => {
     let ttsVoice = "";
@@ -267,218 +267,283 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
   return (
     <Fragment>
       {isOpen && (
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4 md:space-y-6 flex flex-col justify-center items-center"
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4"
+          onClick={handleOutsideClick}
         >
-          <div
-            className="fixed inset-0 bg-[rgba(0,0,0,0.2)] backdrop-blur-sm flex justify-center items-center pt-16"
-            onClick={handleOutsideClick}
-          >
-            <div className="bg-white w-96 rounded-lg p-6 relative flex flex-col items-center max-h-[90vh] overflow-y-auto">
-              <button
-                onClick={closePopup}
-                className="absolute top-2 right-2 bg-gray-500 text-white rounded-full p-2 hover:bg-gray-600 hover:cursor-pointer"
-              >
-                ⨉
-              </button>
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl max-h-[95vh] flex flex-col overflow-hidden">
+            <div className="bg-white rounded-xl p-6 h-full overflow-y-auto flex-1">
+              {isLoading && (
+                <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                  <Sparkles className="mr-2 h-6 w-6 text-purple-600" />
+                  Cargando tokens...
+                </h2>
+                <Button
+                  onClick={closePopup}
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full hover:bg-gray-100 cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              )}
+              {!isLoading && (
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                    <Sparkles className="mr-2 h-6 w-6 text-purple-600" />
+                    Configura tu Video
+                  </h2>
+                  <Button
+                    onClick={closePopup}
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 rounded-full hover:bg-gray-100 cursor-pointer"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
 
-              <h2 className="text-xl text-center mb-6">Configura tu video</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Mode Selection */}
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <Settings className="mr-2 h-5 w-5 text-purple-600" />
+                    ¿Qué querés hacer?
+                  </h3>
 
-            <div className="w-full max-w-2xl bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
-  <h2 className="text-lg font-semibold text-gray-800 mb-4">¿Qué querés hacer?</h2>
+                  <div className="flex items-center space-x-4 mb-6">
+                    <Label htmlFor="toggleTemaScript" className="text-sm font-medium text-gray-700">
+                      Modo:
+                    </Label>
+                    <Switch
+                      id="toggleTemaScript"
+                      checked={isTema}
+                      onCheckedChange={handleSwitchChange}
+                      className="data-[state=checked]:bg-purple-600 cursor-pointer"
+                    />
+                    <span className="text-sm text-gray-600 font-medium">
+                      {isTema ? 'Crear texto desde tema' : 'Leer un guión en voz alta'}
+                    </span>
+                  </div>
 
-  <div className="flex items-center mb-4">
-    <Label htmlFor="toggleTemaScript" className="mr-2">
-      Modo
-    </Label>
-    <Switch
-      id="toggleTemaScript"
-      checked={isTema}
-      onCheckedChange={handleSwitchChange}
-    />
-    <span className="ml-3 text-sm text-gray-600">
-      {isTema ? 'Crear texto desde tema' : 'Leer un guión en voz alta'}
-    </span>
-  </div>
+                  {isTema ? (
+                    <div className="space-y-2">
+                      <Label htmlFor="tema" className="text-sm font-medium text-gray-700">
+                        Escribí un tema
+                      </Label>
+                      <p className="text-sm text-gray-500 mb-2">
+                        El bot generará automáticamente un texto basado en este tema.
+                      </p>
+                      <Input
+                        id="tema"
+                        type="text"
+                        placeholder="Ej: El futuro de la inteligencia artificial"
+                        value={formData.tema}
+                        onChange={(e) => setFormData({ ...formData, tema: e.target.value })}
+                        className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+                      />
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <Label htmlFor="script" className="text-sm font-medium text-gray-700">
+                        Escribí tu guión
+                      </Label>
+                      <p className="text-sm text-gray-500 mb-2">
+                        El bot leerá este texto en voz alta exactamente como lo escribas.
+                      </p>
+                      <Textarea
+                        id="script"
+                        placeholder="Hola, bienvenidos a este nuevo video..."
+                        value={formData.script}
+                        onChange={(e) => setFormData({ ...formData, script: e.target.value })}
+                        className="min-h-24 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+                      />
+                    </div>
+                  )}
+                </div>
 
-  {isTema ? (
-    <div className="grid w-full max-w-sm items-start gap-1.5 mb-4 mt-4">
-      <Label htmlFor="tema">Escribí un tema</Label>
-      <p className="text-sm text-gray-500 mb-1">
-        El bot generará automáticamente un texto basado en este tema.
-      </p>
-      <Input
-        className="rounded-lg bg-gray-50 shadow-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
-        type="text"
-        id="tema"
-        placeholder="Ej: El futuro de la inteligencia artificial"
-        value={formData.tema}
-        onChange={(e) => setFormData({ ...formData, tema: e.target.value })}
-      />
-    </div>
-  ) : (
-    <div className="grid w-full max-w-sm items-start gap-1.5 mb-4 mt-4">
-      <Label htmlFor="script">Escribí tu guión</Label>
-      <p className="text-sm text-gray-500 mb-1">
-        El bot leerá este texto en voz alta exactamente como lo escribas.
-      </p>
-      <Textarea
-        className="rounded-lg bg-gray-50 shadow-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
-        id="script"
-        placeholder="Hola, bienvenidos a este nuevo video..."
-        value={formData.script}
-        onChange={(e) => setFormData({ ...formData, script: e.target.value })}
-      />
-    </div>
-  )}
-</div>
+                {/* Video Configuration */}
+                <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <User className="mr-2 h-5 w-5 text-purple-600" />
+                    Configuraciones de Video
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="idioma" className="text-sm font-medium text-gray-700 flex items-center">
+                        <Globe className="mr-1 h-4 w-4" />
+                        Idioma
+                      </Label>
+                      <Select value={formData.idioma} onValueChange={(value) => changeIdioma(value)}>
+                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+                          <SelectValue placeholder="Selecciona idioma"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {idiomas.map((idioma) => (
+                            <SelectItem key={idioma.value} value={idioma.value} className="cursor-pointer">
+                              {idioma.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-            
-            {/*Seccion del video*/}
+                    <div className="space-y-2">
+                      <Label htmlFor="personaje" className="text-sm font-medium text-gray-700 flex items-center">
+                        <User className="mr-1 h-4 w-4" />
+                        Personaje
+                      </Label>
+                      <Select
+                        value={formData.personaje}
+                        onValueChange={(value) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            personaje: value,
+                            audio_item: [
+                              {
+                                ...prev.audio_item[0],
+                                pth_voice: value,
+                              },
+                            ],
+                          }));
+                        }}
+                      >
+                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+                          <SelectValue placeholder="Selecciona personaje" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {personajes.map((personaje) => (
+                            <SelectItem key={personaje.value} value={personaje.value} className="cursor-pointer">
+                              {personaje.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-            <div className="w-full max-w-2xl bg-white border border-gray-200 rounded-xl shadow-sm p-3 mb-6">
-  <h2 className="text-lg font-semibold text-gray-800 mb-4">Configuraciones de Video</h2>
-  
-  {/* Contenedor con grid dinámico */}
-  <div className="grid grid-cols-2  w-full mt-2 mb-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="gptmodel" className="text-sm font-medium text-gray-700">
+                        Modelo GPT
+                      </Label>
+                      <Select value={formData.gpt_model} onValueChange={(value) => setFormData({ ...formData, gpt_model: value })}>
+                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+                          <SelectValue placeholder="Selecciona modelo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {gptModels.map((gptModel) => (
+                            <SelectItem key={gptModel.value} value={gptModel.value} className="cursor-pointer">
+                              {gptModel.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
 
-    {/* Contenedor para el select de Idioma */}
-    <div className="mb-2">
-      <Label htmlFor="idioma">Idioma</Label>
-      <Select value={formData.idioma} onValueChange={(value) => changeIdioma(value)}>
-        <SelectTrigger>
-          <SelectValue placeholder="Idioma"/>
-        </SelectTrigger>
-        <SelectContent>
-          {idiomas.map((idioma) => (
-            <SelectItem key={idioma.value} value={idioma.value}>
-              {idioma.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+                {/* Additional Configuration */}
+                <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <Gamepad2 className="mr-2 h-5 w-5 text-purple-600" />
+                    Configuraciones Adicionales
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="gameplay" className="text-sm font-medium text-gray-700">
+                        Gameplay
+                      </Label>
+                      <Select value={formData.gameplay_name} onValueChange={(value) => setFormData({ ...formData, gameplay_name: value })}>
+                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+                          <SelectValue placeholder="Selecciona gameplay" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {gameplays.map((gameplay) => (
+                            <SelectItem key={gameplay.value} value={gameplay.value} className="cursor-pointer">
+                              {gameplay.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="random_images_amount" className="text-sm font-medium text-gray-700 flex items-center">
+                        <Image className="mr-1 h-4 w-4" />
+                        Cantidad de imágenes
+                      </Label>
+                      <Input
+                        id="random_images_amount"
+                        type="number"
+                        value={formData.random_amount_images}
+                        placeholder="Cantidad de imágenes"
+                        onChange={(e) => setFormData({ ...formData, random_amount_images: parseInt(e.target.value, 10) })}
+                        className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-    {/* Contenedor para el select de Personaje */}
-    <div className="mb-2">
-      <Label htmlFor="personaje">Personaje</Label>
-          <Select
-          value={formData.personaje}
-          onValueChange={(value) => {
-            setFormData((prev) => ({
-              ...prev,
-              personaje: value,
-              audio_item: [
-                {
-                  ...prev.audio_item[0],
-                  pth_voice: value, // usa el mismo value del personaje
-                },
-              ],
-            }));
-          }}
-        >
+                {/* Credits Display */}
+                {userTokens !== null && (
+                  <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">
+                    <div className="text-center">
+                      <span className="text-sm text-gray-600">Tokens disponibles: </span>
+                      <span className="text-lg font-semibold text-emerald-700">{userTokens}</span>
+                    </div>
+                  </div>
+                )}
 
-        <SelectTrigger>
-          <SelectValue placeholder="Personaje" />
-        </SelectTrigger>
-        <SelectContent>
-          {personajes.map((personaje) => (
-            <SelectItem key={personaje.value} value={personaje.value}>
-              {personaje.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+                {/* Error Messages */}
+                {userTokens === 0 && (
+                  <Alert variant="destructive" className="border-red-200 bg-red-50">
+                    <AlertTitle className="text-red-800">¡Sin créditos!</AlertTitle>
+                    <AlertDescription className="text-red-700">
+                      No tenés tokens disponibles para publicar un video.
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-    {/* Contenedor para el select de Gpt Model */}
-    <div className="mb-2">
-      <Label htmlFor="gptmodel">Gpt Model</Label>
-      <Select value={formData.gpt_model} onValueChange={(value) => setFormData({ ...formData, gpt_model: value })}>
-        <SelectTrigger>
-          <SelectValue placeholder="Modelo" />
-        </SelectTrigger>
-        <SelectContent>
-          {gptModels.map((gptModel) => (
-            <SelectItem key={gptModel.value} value={gptModel.value}>
-              {gptModel.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  </div>
-</div>
+                {!isLoggedIn && (
+                  <Alert variant="destructive" className="border-red-200 bg-red-50">
+                    <AlertTitle className="text-red-800">¡Inicio de sesión requerido!</AlertTitle>
+                    <AlertDescription className="text-red-700">
+                      Necesitas iniciar sesión para hacer un video.
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-<div className="w-full max-w-2xl bg-white border border-gray-200 rounded-xl shadow-sm p-3 mb-6">
-  <h2 className="text-lg font-semibold text-gray-800 mb-4">Configuraciones Adicionales</h2>
-  
-
-    {/* Contenedor para el select de Gameplay */}
-    <div className="mb-2">
-    <Label htmlFor="gameplay">Gameplay</Label>
-    <Select value={formData.gameplay_name} onValueChange={(value) => setFormData({ ...formData, gameplay_name: value })}>
-        <SelectTrigger>
-          <SelectValue placeholder="Gameplay" />
-        </SelectTrigger>
-        <SelectContent>
-          {gameplays.map((gameplay) => (
-            <SelectItem key={gameplay.value} value={gameplay.value}>
-              {gameplay.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-    
-    {/* Contenedor para el select de Imagenes disponibles */}
-    <div className="mb-2">
-    <FormInput
-                id="random_images_amount"
-                label="Cantidad de imagenes random"
-                type="number"
-                value={formData.random_amount_images}
-                placeholder="Ingrese la cantidad de imágenes random"
-                onChange={(value) => setFormData({ ...formData, random_amount_images: parseInt(value, 10) })}
-                className="w-full bg-white border border-gray-300 text-gray-900 rounded-lg px-4 py-2 text-sm focus:ring-gray-400 focus:border-gray-400 shadow-sm focus:outline-none placeholder-gray-500 transition duration-300 ease-in-out mb-4"
-    />
-    </div>    
-</div>
-
-
-      {userTokens !== null && (
-        <div className="text-sm text-gray-700 font-medium mb-2">
-          Tokens disponibles: {userTokens}
-        </div>
-      )}
-
-      
-
-      {userTokens === 0 ? (
-        <Alert variant="destructive" className="mt-4">
-          <AlertTitle>¡Sin créditos!</AlertTitle>
-          <AlertDescription>No tenés tokens disponibles para publicar un video.</AlertDescription>
-        </Alert>
-      ) : (
-        <h1></h1>
-      )}
-
-      { isLoggedIn === true ? (
-        <FormButton className="bg-gradient-to-r from-gray-200 to-gray-300 text-gray-900 font-semibold rounded-lg px-6 py-3 shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:from-gray-300 hover:to-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 w-full mt-4">
-          Publish video
-        </FormButton>
-      ): (
-        <Alert variant="destructive" className="mt-4">
-          <AlertTitle>¡Inicio de sesión requerido!</AlertTitle>
-          <AlertDescription>Necesitas iniciar sesión para hacer un video.</AlertDescription>
-        </Alert>
-      )
-      
-      }
+                {/* Submit Button */}
+                {isLoggedIn && typeof userTokens === 'number' && userTokens > 0 && !isLoading && (
+                  <Button
+                    type="submit"
+                    className="w-full h-14 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 cursor-pointer"
+                  >
+                    <Sparkles className="mr-2 h-5 w-5" />
+                    Crear Video
+                  </Button>
+                )}
+                {isLoggedIn && typeof userTokens === 'number' && userTokens > 0 && isLoading && (
+                  <button
+                    type="button"
+                    disabled
+                    className="w-full h-14 flex items-center justify-center bg-gray-300 text-gray-700 font-semibold text-lg rounded-xl shadow-lg cursor-not-allowed opacity-70"
+                  >
+                    <svg className="animate-spin h-5 w-5 mr-2 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                    Cargando...
+                  </button>
+                )}
+              </form>
             </div>
           </div>
-        </form>
+        </div>
       )}
     </Fragment>
   );
