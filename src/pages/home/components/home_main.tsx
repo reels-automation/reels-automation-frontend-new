@@ -10,6 +10,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert";
+import { Play, CreditCard, CheckCircle, Sparkles } from "lucide-react";
 
 export const PUBLIC_KEY_MP = import.meta.env.VITE_PUBLIC_KEY_MP;
 
@@ -62,6 +63,7 @@ async function handlePayment() {
     alert("Error al iniciar el pago.");
   }
 }
+
 const HomeMain = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isPopOver, setPopOver] = useState(false);
@@ -87,8 +89,9 @@ const HomeMain = () => {
       time = setInterval(() => {
         setSeconds((prevSeconds) => {
           const newSeconds = prevSeconds + 1;
-          if (newSeconds === maxTime) {
+          if (newSeconds >= maxTime) {
             setPopOver(false);
+            return maxTime;
           }
           return newSeconds;
         });
@@ -105,55 +108,95 @@ const HomeMain = () => {
 
   return (
     <Fragment>
-      <div className="flex flex-col items-center space-y-2">
-        <img 
-          src="https://imagenes.20minutos.es/files/image_640_auto/uploads/imagenes/2017/09/29/550750.jpg" 
-          alt="logo" 
-          className="w-48 h-48 rounded-full border-6 border-white"
-        />
-        <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl mt-4 mb-2 text-center">
-          APRENDIENDO CON PERSONAJES
-        </h1>
+      <div className="min-h-screen w-full bg-white">
+        <div className="w-full max-w-6xl mx-auto pt-16 pb-8">
+          <div className="flex flex-col items-center space-y-8">
+            {/* Hero Section */}
+            <div className="text-center space-y-6">
+              <div className="relative mx-auto">
+                <div className="w-32 h-32 sm:w-48 sm:h-48 bg-white rounded-full flex items-center justify-center shadow-xl mx-auto border-4 border-white">
+                  <span className="text-purple-600 font-bold text-5xl sm:text-7xl">AP</span>
+                </div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-100/30 to-blue-100/30"></div>
+              </div>
+              <div className="space-y-4">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 text-center leading-tight">
+                  APRENDIENDO CON
+                  <span className="block text-purple-600">
+                    PERSONAJES
+                  </span>
+                </h1>
+                <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+                  Crea videos increíbles con tus personajes favoritos usando inteligencia artificial
+                </p>
+              </div>
+            </div>
 
-        {isPopOver === true ? (
-          
-          <Alert className="mt-4 bg-green-100 border-green-400 text-green-700 w-96 text-center">
-          <AlertTitle className="font-bold" >Video Creado !</AlertTitle>
-          <AlertDescription className="font-bold" >Ya se ha creado tu video</AlertDescription>
-          <AlertDescription>En breve lo veras en la seccion "Mis videos"</AlertDescription>
-          <AlertDescription>Este mensaje desaparecera en: {maxTime - seconds}</AlertDescription>
-        </Alert>
-        ): (
-          <h2></h2>
-        )
-        }
+            {/* Success Message */}
+            {isPopOver && (
+              <Alert className="bg-emerald-50 border-emerald-200 text-emerald-800 max-w-md mx-auto shadow-lg">
+                <CheckCircle className="h-5 w-5 text-emerald-600" />
+                <AlertTitle className="font-bold text-emerald-800">¡Video en proceso!</AlertTitle>
+                <AlertDescription className="text-emerald-700">
+                  Tu video se está creando. En breve lo verás en la sección "Mis videos". Si tienes algún problema viendo tu video dirigite a nuestro mail de contacto.
+                </AlertDescription>
+                <AlertDescription className="text-emerald-600 text-sm mt-2">
+                  Este mensaje desaparecerá en: {Math.max(0, maxTime - seconds)}s
+                </AlertDescription>
+              </Alert>
+            )}
 
-        <div className="grid grid-cols-3 gap-4 w-full max-w-xl mt-4 mb-4">
-          <div></div>
-            <div>
-              <Button variant="outline" className="
-                w-full h-12 px-6
-                rounded-lg
-                focus:shadow-outline
-                bg-slate-300 hover:bg-slate-400
-                mt-4 mb-4
-                font-semibold text-lg font-poppins
-                " onClick={openPopup}> Crear video 
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+              <Button 
+                onClick={openPopup}
+                className="flex-1 h-14 px-8 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              >
+                <Play className="mr-2 h-5 w-5" />
+                Crear Video
               </Button>
 
-              <Button variant="outline" className="
-                w-full h-12 px-6
-                rounded-lg
-                focus:shadow-outline
-                bg-zinc-300 hover:bg-zinc-400 
-                mt-4 mb-4
-                font-semibold text-lg font-poppins
-                " onClick={handlePayment}> Comprar créditos
+              <Button 
+                onClick={handlePayment}
+                variant="outline"
+                className="flex-1 h-14 px-8 border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              >
+                <CreditCard className="mr-2 h-5 w-5" />
+                Comprar Créditos
               </Button>
             </div>
+
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mt-12">
+              <div className="bg-white rounded-xl p-6 text-center shadow-lg border border-gray-100">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Play className="h-6 w-6 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Videos Personalizados</h3>
+                <p className="text-gray-600 text-sm">Crea contenido único con tus personajes favoritos</p>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 text-center shadow-lg border border-gray-100">
+                <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Sparkles className="h-6 w-6 text-emerald-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Inteligencia Artificial</h3>
+                <p className="text-gray-600 text-sm">Genera guiones automáticamente o usa los tuyos</p>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 text-center shadow-lg border border-gray-100">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CreditCard className="h-6 w-6 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Sistema de Créditos</h3>
+                <p className="text-gray-600 text-sm">Paga solo por lo que uses, sin suscripciones</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <CreateVideoPopUp isOpen={isPopupOpen} closePopup={closePopUp} closePopupMessage={closePopUpMEssage} />
       </div>
+      
+      <CreateVideoPopUp isOpen={isPopupOpen} closePopup={closePopUp} closePopupMessage={closePopUpMEssage} />
     </Fragment>
   );
 }

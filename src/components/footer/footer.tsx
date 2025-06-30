@@ -1,56 +1,85 @@
-import React from 'react';
+import { Mail, Github, Twitter, Instagram } from "lucide-react";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
-    <footer className="bg-white shadow-sm dark:bg-gray-900">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <a
-            href="https://www.instagram.com/aprendiendo.con.personajes/"
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Aprendiendo con personajes
-            </span>
-          </a>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-            <li>
-              {/* <Link to="/about" className="hover:underline me-4 md:me-6">
-                Este link es mentira
-              </Link> */}
-            </li>
-            {/* <li>
-              <Link to="/privacy-policy" className="hover:underline me-4 md:me-6">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link to="/licensing" className="hover:underline me-4 md:me-6">
-                Licensing
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className="hover:underline">
-                Contact
-              </Link>
-            </li> */}
-          </ul>
+    <footer className="bg-white border-t border-gray-200 mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Brand Section */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">AP</span>
+              </div>
+              <span className="text-gray-900 font-bold text-lg">Aprendiendo con Personajes</span>
+            </div>
+            <p className="text-gray-600 text-sm">
+              Crea videos increíbles con tus personajes favoritos usando inteligencia artificial. 
+              La herramienta perfecta para content creators y educadores.
+            </p>
+          </div>
+
+          {/* Links Section (oculto si está vacío) */}
+          <div className="space-y-4">
+            {/* Puedes agregar enlaces útiles aquí si los necesitas */}
+          </div>
+
+          {/* Contact Section */}
+          <div className="space-y-4">
+            <h3 className="text-gray-900 font-semibold text-lg">Contacto</h3>
+            <div className="flex flex-col space-y-3">
+              <div className="flex items-center">
+                <a
+                  href="https://www.instagram.com/aprendiendo.con.personajes/"
+                  className="text-gray-600 hover:text-purple-600 transition-colors duration-200"
+                  aria-label="Instagram"
+                  target="_blank" rel="noopener noreferrer"
+                >
+                  <Instagram className="h-5 w-5" />
+                </a>
+                <span className="ml-4 text-gray-600 text-sm">@aprendiendo.con.personajes</span>
+              </div>
+              <div className="flex items-center">
+                <a
+                  href="https://x.com/con_personajes"
+                  className="text-gray-600 hover:text-purple-600 transition-colors duration-200"
+                  aria-label="Twitter"
+                  target="_blank" rel="noopener noreferrer"
+                >
+                  <Twitter className="h-5 w-5" />
+                </a>
+                <span className="ml-4 text-gray-600 text-sm">@con_personajes</span>
+              </div>
+              <div className="flex items-center">
+                <a
+                  href="https://github.com/reels-automation"
+                  className="text-gray-600 hover:text-purple-600 transition-colors duration-200"
+                  aria-label="GitHub"
+                  target="_blank" rel="noopener noreferrer"
+                >
+                  <Github className="h-5 w-5" />
+                </a>
+                <span className="ml-4 text-gray-600 text-sm">reels-automation-project</span>
+              </div>
+              <div className="flex items-center">
+                <Mail className="h-4 w-4 text-gray-600" />
+                <span className="ml-4 text-gray-600 text-sm">hawktuahlacacatua@gmail.com</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2025{' '}
-          <a
-            href="https://www.instagram.com/aprendiendo.con.personajes/"
-            className="hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            AprendiendoConPersonajes™
-          </a>
-          . All Rights Reserved.
-        </span>
+
+        {/* Bottom Section */}
+        <div className="mt-8 pt-8 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <div className="flex items-center space-x-1 text-gray-600 text-sm">
+              {/* Puedes agregar un mensaje aquí si lo deseas */}
+            </div>
+            <div className="text-gray-600 text-sm">
+              © 2024 Aprendiendo con Personajes. Todos los derechos reservados.
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );

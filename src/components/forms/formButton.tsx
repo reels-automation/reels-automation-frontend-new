@@ -1,20 +1,29 @@
 import React from 'react';
+import { Button } from '@/components/ui/button';
 
-interface ButtonProps {
-  type?: 'submit' | 'button' | 'reset';
+interface FormButtonProps {
   children: React.ReactNode;
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
-export const FormButton = ({ type = 'submit', children, className }: ButtonProps) => {
-  const defaultClasses = "w-full text-gray-900 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer";
-
+export const FormButton: React.FC<FormButtonProps> = ({
+  children,
+  className,
+  type = 'button',
+  onClick,
+  disabled = false,
+}) => {
   return (
-    <button
+    <Button
       type={type}
-      className={className ? className : defaultClasses}
+      onClick={onClick}
+      disabled={disabled}
+      className={className}
     >
       {children}
-    </button>
+    </Button>
   );
 };

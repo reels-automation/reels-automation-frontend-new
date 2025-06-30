@@ -1,265 +1,166 @@
-import { useState,  useEffect } from "react";
-import NavbarLogo from "./components/navbarLogo";
-import NavbarButton from "./components/navbarButton";
-import NavbarButtonsContainer from "./components/navbarButtonContainer";
-import { useAuth } from "../../context/authContext";
-//import { Label } from "@/components/ui/label";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/authContext";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, User, LogOut, Home } from "lucide-react";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
-function Navbar() {
+const Navbar = () => {
+  const { isLoggedIn, logout, user } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState("Usuario")
 
-  const logo_image = "https://th.bing.com/th/id/R.39928ef71f5fa16f2c51031b4e182aab?rik=8O1Usrx4O2rbJQ&pid=ImgRaw&r=0";
-  const home_route = "/";
-  const { isLoggedIn, logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    setIsMenuOpen(false);
+  };
 
-  function getSubFromToken(): string  {
-    try {
-      const token = localStorage.getItem("authToken"); // Cambia esto por tu clave real
-      if (!token) return "";
-  
-      const payload = token.split(".")[1];
-      const decoded = JSON.parse(atob(payload));
-  
-      return decoded.username; // Esto ahora se espera que sea string (UUID)
-    } catch (err) {
-      console.error("Error decoding token", err);
-      return "";
-    }
-  }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-  useEffect(() => {
-      const username = getSubFromToken();
-      if (username !== null) {
-        setUser(username)
-      }
-    }, []);
-
- 
-
-  const endButtons = isLoggedIn
-    ? [
-        
-      <Popover>
-  <PopoverTrigger><Avatar className="w-12 h-12">
-        <AvatarImage src="https://via.placeholder.com/150" alt="User Avatar" />
-        <AvatarFallback>{user[0]}</AvatarFallback>
-      </Avatar>
-      </PopoverTrigger>
-
-  <PopoverContent className="w-56 p-4">
-    <div className="flex flex-col items-center text-center space-y-2">
-      
-      <Avatar className="w-12 h-12">
-        <AvatarImage src="https://via.placeholder.com/150" alt="User Avatar" />
-        <AvatarFallback>{user[0]}</AvatarFallback>
-      </Avatar>
-      <div className="font-medium text-sm">{user}</div>
-    </div>
-
-    <Separator className="my-4" />
-
-    {/* Botones tipo lista */}
-    <div className="flex flex-col">
-    <Button
-        variant="ghost"
-        className="justify-start w-full hover:bg-muted px-3 py-2"
-        onClick={() => navigate("/")}
-      >
-        Inicio
-      </Button>
-
-      <Button
-        variant="ghost"
-        className="justify-start w-full hover:bg-muted px-3 py-2"
-        onClick={() => navigate("/mis-videos")}
-      >
-        Mis Videos
-      </Button>
-      <Button
-        variant="ghost"
-        className="justify-start w-full hover:bg-muted px-3 py-2"
-        onClick={logout}
-      >
-        Cerrar sesión
-      </Button>
-    </div>
-  </PopoverContent>
-</Popover>
-
-      ]
-    : [
-        <NavbarButton key="login" url="/login" className="text-center">Iniciar Sesión</NavbarButton>,
-        <NavbarButton key="register" url="/register" className="text-center">Registrarse</NavbarButton>
-      ];
-
-      return (
-        <nav className="bg-gray-200 border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-50">
-          <div className="flex items-center justify-between p-4 mx-auto relative">
-            
-            {/* Logo - Solo visible en desktop */}
-            <div className="hidden sm:block" >
-            <NavbarLogo 
-              url={home_route} 
-              image={logo_image}
-     // Oculto en móvil
-            >
-              Aprendiendo con personajes
-            </NavbarLogo>
-    
-
-            </div>
-            
-            {/* Avatar móvil - Solo visible cuando está logueado en móvil */}
-            {isLoggedIn && (
-              <div className="sm:hidden ml-2">
-                <Popover>
-                  <PopoverTrigger>
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage src="https://via.placeholder.com/150" alt="User Avatar" />
-                      <AvatarFallback>{user[0]}</AvatarFallback>
-                    </Avatar>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-48 mt-2 mr-2">
-                    <div className="flex flex-col">
-                    <Button
-                        variant="ghost"
-                        className="justify-start"
-                        onClick={() => navigate("/")}
-                      >
-                        Inicio
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        className="justify-start"
-                        onClick={() => navigate("/mis-videos")}
-                      >
-                        Mis Videos
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        className="justify-start"
-                        onClick={logout}
-                      >
-                        Cerrar sesión
-                      </Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo y saludo */}
+          <div className="flex items-center space-x-4">
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                <span className="text-purple-600 font-bold text-sm">AP</span>
               </div>
-            )}
-    
-            {/* Controles derecha */}
-            <div className="flex items-center gap-4">
-              {/* Menú móvil */}
-              <div className="sm:hidden">
-                {!isLoggedIn && (
-                  <button 
-                    onClick={() => setIsMenuOpen(!isMenuOpen)} 
-                    className="text-gray-700 dark:text-gray-300 focus:outline-none"
+              <span className="text-white font-bold text-lg hidden sm:block">
+                Aprendiendo con Personajes
+              </span>
+            </Link>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-center space-x-4">
+              <Link
+                to="/"
+                className="text-white hover:text-purple-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
+              >
+                <Home className="h-4 w-4 mr-1" />
+                Inicio
+              </Link>
+              
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    to="/mis-videos"
+                    className="text-white hover:text-purple-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
                   >
-                    <svg 
-                      className="w-6 h-6" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
+                    Mis Videos
+                  </Link>
+                  <Button
+                    onClick={handleLogout}
+                    variant="ghost"
+                    className="text-white hover:text-purple-200 hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  >
+                    <LogOut className="h-4 w-4 mr-1" />
+                    Cerrar Sesión
+                  </Button>
+                  {isLoggedIn && user?.name && (
+                  <span className="text-white font-medium text-base ml-4 hidden md:block">Hola, {user.name}</span>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <Button
+                      variant="outline"
+                      className="border-2 border-blue-400 hover:bg-blue-400 hover:text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                     >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M4 6h16M4 12h16M4 18h16" 
-                      />
-                    </svg>
-                  </button>
-                )}
-                
-                {/* Menú desplegable móvil */}
-                {isMenuOpen && (
-                  <div className="absolute top-12 left-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
-                    {!isLoggedIn ? (
-                      <>
-                      <NavbarButton 
-                          url="/" 
-                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Inicio
-                        </NavbarButton>
-
-                        <NavbarButton 
-                          url="/login" 
-                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Iniciar Sesión
-                        </NavbarButton>
-                        <NavbarButton 
-                          url="/register" 
-                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Registrarse
-                        </NavbarButton>
-                      </>
-                    ) : (
-                      <div className="flex flex-col">
-                        <Button
-                          variant="ghost"
-                          className="justify-start"
-                          onClick={() => {
-                            navigate("/");
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          Inicio
-                        </Button>
-
-                        <Button
-                          variant="ghost"
-                          className="justify-start"
-                          onClick={() => {
-                            navigate("/mis-videos");
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          Mis Videos
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          className="justify-start"
-                          onClick={() => {
-                            logout();
-                            setIsMenuOpen(false);
-                          }}
-                        >
-                          Cerrar sesión
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-    
-              {/* Desktop nav */}
-              <div className="hidden sm:flex">
-                <NavbarButtonsContainer end={endButtons} />
-              </div>
+                      Iniciar Sesión
+                    </Button>
+                  </Link>
+                  <Link to="/register">
+                    <Button className="bg-white text-purple-600 hover:bg-gray-100 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-xl">
+                      Registrarse
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
-        </nav>
-      );
-    }
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <Button
+              onClick={toggleMenu}
+              variant="ghost"
+              size="icon"
+              className="text-white hover:text-purple-200 hover:bg-white/10"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden mb-4">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white/10 backdrop-blur-md rounded-lg mt-2 border border-white/20 mb-4">
+              <Link
+                to="/"
+                className="text-white hover:text-purple-200 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Home className="h-4 w-4 mr-2 inline" />
+                Inicio
+              </Link>
+              
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    to="/mis-videos"
+                    className="text-white hover:text-purple-200 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <User className="h-4 w-4 mr-2 inline" />
+                    Mis Videos
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-white hover:text-purple-200 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 w-full text-left"
+                  >
+                    <LogOut className="h-4 w-4 mr-2 inline" />
+                    Cerrar Sesión
+                  </button>
+                  {user?.name && (
+                    <span className="block text-white font-medium text-base px-3 py-2">Hola, {user.name}</span>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-white hover:text-purple-200 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Iniciar Sesión
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="bg-white text-purple-600 block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 text-center shadow-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Registrarse
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;
