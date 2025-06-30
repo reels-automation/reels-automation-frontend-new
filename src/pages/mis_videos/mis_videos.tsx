@@ -220,7 +220,6 @@ const MisVideos = () => {
                         key={video.id ?? idx}
                         onClick={() => {
                           setSelectedVideoId(video.id ?? String(idx))
-                          setIsSidebarOpen(false)
                         }}
                         className={`w-full text-left p-3 rounded-lg mb-2 transition-all duration-200 hover:bg-gray-50 ${
                           selectedVideoId === (video.id ?? String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
@@ -393,7 +392,7 @@ const MisVideos = () => {
                     Descargar Video
                   </Button>
                 </div>
-
+                
                 {/* Video Details */}
                 <div className="space-y-6">
                   {/* Technical Info */}
