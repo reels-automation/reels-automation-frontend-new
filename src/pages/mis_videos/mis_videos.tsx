@@ -142,8 +142,9 @@ const MisVideos = () => {
           return
         }
         const data = await res.json()
+        console.log("VIDEOS DATA:", data.videos)
         setVideos(data.videos)
-        setSelectedVideoId(data.videos[0]?.id || null)
+        setSelectedVideoId(data.videos[0]?.id ?? "0")
       } catch (err) {
         console.error("Error en la solicitud de videos:", err)
         setVideos([])
@@ -154,7 +155,7 @@ const MisVideos = () => {
     fetchVideos()
   }, [userId])
 
-  const selectedVideo = videos.find((video) => video.id === selectedVideoId)
+  const selectedVideo = videos.find((video, idx) => (video.id ?? String(idx)) === selectedVideoId)
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden">
@@ -214,15 +215,15 @@ const MisVideos = () => {
                   </div>
                 ) : (
                   <div className="p-2">
-                    {videos.map((video) => (
+                    {videos.map((video, idx) => (
                       <button
-                        key={video.id}
+                        key={video.id ?? idx}
                         onClick={() => {
-                          setSelectedVideoId(video.id!)
+                          setSelectedVideoId(video.id ?? String(idx))
                           setIsSidebarOpen(false)
                         }}
                         className={`w-full text-left p-3 rounded-lg mb-2 transition-all duration-200 hover:bg-gray-50 ${
-                          selectedVideoId === video.id ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
+                          selectedVideoId === (video.id ?? String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
                         }`}
                       >
                         <div className="space-y-2">
@@ -283,12 +284,12 @@ const MisVideos = () => {
               </div>
             ) : (
               <div className="p-2">
-                {videos.map((video) => (
+                {videos.map((video, idx) => (
                   <button
-                    key={video.id}
-                    onClick={() => setSelectedVideoId(video.id!)}
+                    key={video.id ?? idx}
+                    onClick={() => setSelectedVideoId(video.id ?? String(idx))}
                     className={`w-full text-left p-3 rounded-lg mb-2 transition-all duration-200 hover:bg-gray-50 ${
-                      selectedVideoId === video.id ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
+                      selectedVideoId === (video.id ?? String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
                     }`}
                   >
                     {isSidebarCollapsed ? (
