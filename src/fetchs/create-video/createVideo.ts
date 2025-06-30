@@ -1,5 +1,5 @@
-import { API_URL } from "../api";
 
+import { API_URL } from "../api";
 type Dictionary = Record<string, any>;
 
 export const createVideo = async (videoData:Dictionary) => {

@@ -1,0 +1,13 @@
+Dockerfile
+.dockerignore
+.gitignore
+README.md
+build
+node_modules
+env
+public/config.json
+.env
+.env.deployment
+.env.development
+.env.template
+.git
