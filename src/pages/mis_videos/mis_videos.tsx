@@ -219,10 +219,10 @@ const MisVideos = () => {
                       <button
                         key={idx}
                         onClick={() => {
-                          setSelectedVideoId(String(idx))
+                          setSelectedVideoId(video.id ?? String(idx))
                         }}
                         className={`w-full text-left p-3 rounded-lg mb-2 transition-all duration-200 hover:bg-gray-50 ${
-                          selectedVideoId === (String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
+                          selectedVideoId === (video.id ?? String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
                         }`}
                       >
                         <div className="space-y-2">
@@ -286,9 +286,9 @@ const MisVideos = () => {
                 {videos.map((video, idx) => (
                   <button
                     key={idx}
-                    onClick={() => setSelectedVideoId(String(idx))}
+                    onClick={() => setSelectedVideoId(video.id ?? String(idx))}
                     className={`w-full text-left p-3 rounded-lg mb-2 transition-all duration-200 hover:bg-gray-50 ${
-                      selectedVideoId === (String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
+                      selectedVideoId === (video.id ?? String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
                     }`}
                   >
                     {isSidebarCollapsed ? (
@@ -360,30 +360,42 @@ const MisVideos = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Video Player */}
                 <div className="space-y-6">
-                  <Card className="overflow-hidden shadow-lg">
-                    <div className="w-full aspect-[9/16] flex items-center justify-center">
+                  <Card className="overflow-hidden shadow-lg rounded-xl bg-black">
+                    <div className="w-full aspect-[9/16]">
                       {selectedVideo.url ? (
                         <video
                           controls
                           className="w-full h-full object-contain rounded-xl border border-gray-200 shadow-md bg-black"
+                          src={
+                            selectedVideo.url.startsWith("http")
+                              ? selectedVideo.url
+                              : `${API_URL}/${selectedVideo.url.replace(/^\//, "")}`
+                          }
+                          onError={(e) => {
+                            const videoElem = e.currentTarget;
+                            videoElem.poster = "";
+                            videoElem.style.display = "none";
+                          }}
                         >
-                          <source src={selectedVideo.url} type="video/mp4" />
                           Tu navegador no soporta el video.
                         </video>
                       ) : (
-                        <div className="text-center text-white">
-                          <Play className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                          <p className="text-sm opacity-75">Video Preview</p>
-                          <p className="text-xs opacity-50 mt-2">Click para reproducir</p>
+                        <div className="flex items-center justify-center h-full text-gray-400">
+                          No hay video disponible.
                         </div>
                       )}
                     </div>
                   </Card>
+                  {/* Puedes ocultar la línea de URL si no es útil */}
+                  {/* <p>{selectedVideo.url}</p> */}
                   <Button
                     className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                     onClick={() => {
                       if (selectedVideo.url) {
-                        window.open(selectedVideo.url, "_blank")
+                        const url = selectedVideo.url.startsWith("http")
+                          ? selectedVideo.url
+                          : `${API_URL}/${selectedVideo.url.replace(/^\//, "")}`;
+                        window.open(url, "_blank")
                       }
                     }}
                   >
