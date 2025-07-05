@@ -358,38 +358,10 @@ const MisVideos = () => {
 
               {/* Video Content */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Video Player */}
-                <div className="space-y-6">
-                  <Card className="overflow-hidden shadow-lg rounded-xl bg-black">
-                    <div className="w-full aspect-[9/16]">
-                      {selectedVideo.url ? (
-                        <video
-                          controls
-                          className="w-full h-full object-contain rounded-xl border border-gray-200 shadow-md bg-black"
-                          src={
-                            selectedVideo.url.startsWith("http")
-                              ? selectedVideo.url
-                              : `${API_URL}/${selectedVideo.url.replace(/^\//, "")}`
-                          }
-                          onError={(e) => {
-                            const videoElem = e.currentTarget;
-                            videoElem.poster = "";
-                            videoElem.style.display = "none";
-                          }}
-                        >
-                          Tu navegador no soporta el video.
-                        </video>
-                      ) : (
-                        <div className="flex items-center justify-center h-full text-gray-400">
-                          No hay video disponible.
-                        </div>
-                      )}
-                    </div>
-                  </Card>
-                  {/* Puedes ocultar la línea de URL si no es útil */}
-                  {/* <p>{selectedVideo.url}</p> */}
+                <div className="space-y-6 flex flex-col items-center">
+                  {/* Download button */}
                   <Button
-                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                    className="w-full max-w-sm bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                     onClick={() => {
                       if (selectedVideo.url) {
                         const url = selectedVideo.url.startsWith("http")
@@ -402,6 +374,28 @@ const MisVideos = () => {
                     <Download className="mr-2 h-5 w-5" />
                     Descargar Video
                   </Button>
+                  {/* Video Player */}
+                  <div className="w-full max-w-sm aspect-[9/16] mx-auto">
+                    {selectedVideo.url ? (
+                      <video
+                        key={selectedVideo.id ?? selectedVideo.url ?? Math.random()}
+                        controls
+                        className="w-full h-full object-contain rounded-xl border border-gray-200 shadow-md bg-black"
+                        src={
+                          selectedVideo.url.startsWith("http")
+                            ? selectedVideo.url
+                            : `${API_URL}/${selectedVideo.url.replace(/^\//, "")}`
+                        }
+                      >
+                        Tu navegador no soporta el video.
+                      </video>
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-gray-400">
+                        No hay video disponible.
+                      </div>
+                    )}
+                  </div>
+                  {/* Puedes ocultar la línea de URL si no es útil */}
                 </div>
                 
                 {/* Video Details */}
