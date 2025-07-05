@@ -361,7 +361,7 @@ const MisVideos = () => {
                 {/* Video Player */}
                 <div className="space-y-6">
                   <Card className="overflow-hidden shadow-lg">
-                    <div className="w-full aspect-[9/16] bg-black flex items-center justify-center">
+                    <div className="w-full aspect-[9/16] flex items-center justify-center">
                       {selectedVideo.url ? (
                         <video
                           controls
@@ -379,7 +379,6 @@ const MisVideos = () => {
                       )}
                     </div>
                   </Card>
-
                   <Button
                     className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                     onClick={() => {
