@@ -15,5 +15,5 @@ export default function HomeButton() {
         </Link>
       </div>
     </nav>
-  )
+  );
 }

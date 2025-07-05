@@ -76,7 +76,7 @@ const Footer = () => {
               {/* Puedes agregar un mensaje aquí si lo deseas */}
             </div>
             <div className="text-gray-600 text-sm">
-              © 2024 Aprendiendo con Personajes. Todos los derechos reservados.
+              © 2025 Aprendiendo con Personajes. Todos los derechos reservados.
             </div>
           </div>
         </div>
