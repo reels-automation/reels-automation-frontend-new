@@ -217,12 +217,12 @@ const MisVideos = () => {
                   <div className="p-2">
                     {videos.map((video, idx) => (
                       <button
-                        key={video.id ?? idx}
+                        key={idx}
                         onClick={() => {
-                          setSelectedVideoId(video.id ?? String(idx))
+                          setSelectedVideoId(String(idx))
                         }}
                         className={`w-full text-left p-3 rounded-lg mb-2 transition-all duration-200 hover:bg-gray-50 ${
-                          selectedVideoId === (video.id ?? String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
+                          selectedVideoId === (String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
                         }`}
                       >
                         <div className="space-y-2">
@@ -285,10 +285,10 @@ const MisVideos = () => {
               <div className="p-2">
                 {videos.map((video, idx) => (
                   <button
-                    key={video.id ?? idx}
-                    onClick={() => setSelectedVideoId(video.id ?? String(idx))}
+                    key={idx}
+                    onClick={() => setSelectedVideoId(String(idx))}
                     className={`w-full text-left p-3 rounded-lg mb-2 transition-all duration-200 hover:bg-gray-50 ${
-                      selectedVideoId === (video.id ?? String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
+                      selectedVideoId === (String(idx)) ? "bg-purple-50 border-l-4 border-purple-600" : "hover:bg-gray-50"
                     }`}
                   >
                     {isSidebarCollapsed ? (
