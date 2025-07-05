@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import Navbar from "../../components/navbar/navbar"
 import Footer from "../../components/footer/footer"
 import {
-  Play,
   Download,
   User,
   Globe,
