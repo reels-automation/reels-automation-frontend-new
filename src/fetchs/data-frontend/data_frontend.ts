@@ -13,3 +13,16 @@ export const getOllamaModels = async () => {
     return [];
   }
 };
+
+export const getGameplays = async () => {
+  const endpoint = `${API_URL}/gameplays`;
+  console.log(endpoint)
+  try {
+    const response = await axios.get(endpoint);
+    console.log("Response: ", response)
+    return response.data;
+  } catch (err) {
+    console.error("Error al obtener los models:", err);
+    return [];
+  }
+}

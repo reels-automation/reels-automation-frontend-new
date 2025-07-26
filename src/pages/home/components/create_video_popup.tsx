@@ -1,4 +1,5 @@
 import { Fragment, useState , useEffect} from "react";
+
 import { createVideo } from "../../../fetchs/create-video/createVideo";
 import { useAuth } from "@/context/authContext";
 import { Input } from "@/components/ui/input"
@@ -21,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { getOllamaModels } from "@/fetchs/data-frontend/data_frontend";
-
+import { getGameplays } from "@/fetchs/data-frontend/data_frontend";
 interface CreateVideoPopUpProps {
   isOpen: boolean;
   closePopup: () => void;
@@ -29,12 +30,16 @@ interface CreateVideoPopUpProps {
 }
 
 const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup, closePopupMessage }) => {
-  
+  type Gameplay = {
+  name: string;
+  url: string;
+}
+
+
   const { isLoggedIn } = useAuth();
   const  constanteMagica  = 100;
   const [gptModels, setGptModels] = useState<string[]>([]);
-
-
+  const [gameplays, setGameplays] = useState<Gameplay[]>([])
   const [formData, setFormData] = useState({
     tema: "",
     usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
@@ -60,7 +65,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
       },
     ],
     author: "",
-    gameplay_name: "subway.mp4",
+    gameplay_name: "",
     background_music: [
       {
         audio_name: "",
@@ -100,6 +105,22 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     fetchModels()
   }, [])
 
+  useEffect(()=>{
+    const fetchGameplays = async () => {
+      try {
+        const data = await getGameplays()
+        setGameplays(data)
+        if (data.length > 0 && !formData.gameplay_name) {
+        setFormData((prev) => ({ ...prev, gameplay_name: data[0].name }));
+      }
+
+        console.log("gamepalys  ", data)
+      } catch (error){
+        console.error("Error al cargar los gameplays", error)
+      }
+    }
+    fetchGameplays()
+  },[])
 
   function getSubFromToken(): string  {
     try {
@@ -166,17 +187,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
   const handleSwitchChange = () => {
     setIsTema(prevState => !prevState);
   };
-
-  const gameplays = [
-    { value: "subway.mp4", label: "Subway Surfers" },
-    { value: "60seconds1.mp4", label: "60 Seconds" },
-    { value: "clash-vertical1.mp4", label: "Clash Royale" },
-    { value: "dbd.mp4", label: "Dead by Daylight" },
-    { value: "flappy-ai.mp4", label: "Flappy Bird" },
-    { value: "gettingoverit.mp4", label: "Getting Over it" },
-    { value: "gta.mp4", label: "Gta" },
-    { value: "undertale1.mp4", label: "Undertale" }
-  ];
 
   const idiomas = [
     { value: "es", label: "Español" },
@@ -488,21 +498,49 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
+                      
                       <Label htmlFor="gameplay" className="text-sm font-medium text-gray-700">
-                        Gameplay
-                      </Label>
-                      <Select value={formData.gameplay_name} onValueChange={(value) => setFormData({ ...formData, gameplay_name: value })}>
-                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
-                          <SelectValue placeholder="Selecciona gameplay" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {gameplays.map((gameplay) => (
-                            <SelectItem key={gameplay.value} value={gameplay.value} className="cursor-pointer">
-                              {gameplay.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+  Gameplay
+</Label>
+<Select value={formData.gameplay_name} onValueChange={(value) => setFormData({ ...formData, gameplay_name: value })}>
+  <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+    <SelectValue placeholder="Selecciona gameplay" />
+  </SelectTrigger>
+  <SelectContent>
+    {gameplays.map((gameplay) => (
+      <SelectItem
+        key={gameplay.name}
+        value={gameplay.name}
+        className="cursor-pointer"
+      >
+        {gameplay.name}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
+{formData.gameplay_name && (
+  <div className="mt-2 p-3 border rounded-lg bg-gray-50 shadow-sm">
+    <p className="text-sm font-semibold mb-3 text-gray-700">Preview del Gameplay:</p>
+    {(() => {
+      const selectedGameplay = gameplays.find(g => g.name === formData.gameplay_name);
+      if (!selectedGameplay) return <p className="text-gray-500">No se encontró el gameplay.</p>;
+      return (
+        <video
+          src={selectedGameplay.url}
+          controls
+          className="w-full rounded-lg border border-gray-300 shadow-md aspect-[16/9]"
+          preload="metadata"
+        >
+          Tu navegador no soporta la reproducción de video.
+        </video>
+      );
+    })()}
+  </div>
+)}
+
+
+
                     </div>
                     
                     <div className="space-y-2">
