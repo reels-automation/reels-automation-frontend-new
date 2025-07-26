@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { getOllamaModels } from "@/fetchs/data-frontend/data_frontend";
 
 interface CreateVideoPopUpProps {
   isOpen: boolean;
@@ -30,6 +31,9 @@ interface CreateVideoPopUpProps {
 const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup, closePopupMessage }) => {
   
   const { isLoggedIn } = useAuth();
+  const  constanteMagica  = 100;
+  const [gptModels, setGptModels] = useState<string[]>([]);
+
 
   const [formData, setFormData] = useState({
     tema: "",
@@ -77,8 +81,25 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     ],
     random_images: true,
     random_amount_images: 5,
-    gpt_model: "mistral:latest",
+    gpt_model: gptModels[0],
   });
+
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const data = await getOllamaModels()
+        setGptModels(data)
+        if (data.length > 0 && !formData.gpt_model){
+          setFormData((prev)=> ({ ...prev, gpt_model:data[0]}))
+        }
+      } catch (error) {
+        console.error("Error al cargar los modelos:", error)
+      } 
+    }
+
+    fetchModels()
+  }, [])
+
 
   function getSubFromToken(): string  {
     try {
@@ -166,11 +187,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     { value: "homero", label: "Homero Simpson" },
     { value: "peter_griffin", label: "Peter Griffin" },
   ];
-
-  const gptModels = [
-    { value: "llama3.2:3b", label: "Llama" },
-    { value: "mistral:latest", label: "Mistral" },    
-  ]
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -342,10 +358,28 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
                         type="text"
                         placeholder="Ej: El futuro de la inteligencia artificial"
                         value={formData.tema}
-                        onChange={(e) => setFormData({ ...formData, tema: e.target.value })}
-                        className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value.length <= constanteMagica) {
+                            setFormData({ ...formData, tema: value });
+                          }
+                        }}
+                        className={`h-12 border ${
+                          formData.tema.length < constanteMagica ? 'border-gray-300' : 'border-red-500'
+                        } focus:border-purple-500 focus:ring-purple-500`}
                       />
+                      <p
+                        className={`text-sm ${
+                          formData.tema.length < constanteMagica ? 'text-green-600' : 'text-red-500'
+                        }`}
+                      >
+                        {formData.tema.length < constanteMagica
+                          ? `${constanteMagica - formData.tema.length} caracteres restantes`
+                          : '¡Límite de constanteMagica caracteres alcanzado!'}
+                      </p>
                     </div>
+
+
                   ) : (
                     <div className="space-y-2">
                       <Label htmlFor="script" className="text-sm font-medium text-gray-700">
@@ -435,8 +469,8 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
                         </SelectTrigger>
                         <SelectContent>
                           {gptModels.map((gptModel) => (
-                            <SelectItem key={gptModel.value} value={gptModel.value} className="cursor-pointer">
-                              {gptModel.label}
+                            <SelectItem key={gptModel} value={gptModel} className="cursor-pointer">
+                              {gptModel}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -480,6 +514,8 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
                         id="random_images_amount"
                         type="number"
                         value={formData.random_amount_images}
+                        min={1}
+                        max={10}
                         placeholder="Cantidad de imágenes"
                         onChange={(e) => setFormData({ ...formData, random_amount_images: parseInt(e.target.value, 10) })}
                         className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500"

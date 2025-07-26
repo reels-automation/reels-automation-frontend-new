@@ -1,0 +1,15 @@
+import { API_URL } from "../api";
+import axios from "axios";
+
+export const getOllamaModels = async () => {
+  const endpoint = `${API_URL}/ollama-models`;
+  console.log(endpoint)
+  try {
+    const response = await axios.get(endpoint);
+    console.log("x lol: ", response.data.models)
+    return response.data.models;
+  } catch (err) {
+    console.error("Error al obtener los models:", err);
+    return [];
+  }
+};
