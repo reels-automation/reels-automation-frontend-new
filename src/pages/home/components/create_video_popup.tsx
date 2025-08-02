@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { X, Sparkles, User, Globe, Gamepad2, Image, Settings } from "lucide-react";
+import { X, Sparkles, User,  Gamepad2, Image, Settings } from "lucide-react";
 import {
   Alert,
   AlertDescription,
@@ -227,11 +227,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     setIsTema(prevState => !prevState);
   };
 
-  const idiomas = [
-    { value: "es", label: "Español" },
-    { value: "en", label: "English" },
-  ];
-
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closePopup();
@@ -303,26 +298,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     }
   };
 
-  const changeIdioma = (value: string) => {
-    let ttsVoice = "";
-
-    if (value === "es") {
-      ttsVoice = "es-ES-XimenaNeural";
-    } else if (value === "en") {
-      ttsVoice = "en-NZ-MitchellNeural";
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      idioma: value,
-      audio_item: [
-        {
-          ...prev.audio_item[0],
-          tts_voice: ttsVoice,
-        },
-      ],
-    }));
-  };
 
   return (
     <Fragment>
