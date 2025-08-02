@@ -24,6 +24,7 @@ import {
 import { getOllamaModels } from "@/fetchs/data-frontend/data_frontend";
 import { getGameplays } from "@/fetchs/data-frontend/data_frontend";
 import { getVoiceModels } from "@/fetchs/data-frontend/data_frontend";
+import { getMicrosoftVoices } from "@/fetchs/data-frontend/data_frontend";
 
 interface CreateVideoPopUpProps {
   isOpen: boolean;
@@ -49,6 +50,7 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
   const [gptModels, setGptModels] = useState<string[]>([]);
   const [gameplays, setGameplays] = useState<Gameplay[]>([])
   const [voiceModels, setVoiceModels] = useState<VoiceModel[]>([])
+  const [ttsVoices, setTtsVoices] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     tema: "",
     usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
@@ -158,6 +160,32 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
   };
 
   fetchVoiceModels();
+}, []);
+
+useEffect(() => {
+  const fetchTtsVoices = async () => {
+    try {
+      const data = await getMicrosoftVoices();
+      setTtsVoices(data);
+
+      // Opcional: Setear voz por defecto si no hay una definida
+      if (data.length > 0 && !formData.audio_item[0].tts_voice) {
+        setFormData((prev) => ({
+          ...prev,
+          audio_item: [
+            {
+              ...prev.audio_item[0],
+              tts_voice: data[0],
+            },
+          ],
+        }));
+      }
+    } catch (error) {
+      console.error("Error al cargar las voces TTS de Microsoft", error);
+    }
+  };
+
+  fetchTtsVoices();
 }, []);
 
 
@@ -488,7 +516,46 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
                       </Select>
                     </div>
                   </div>
+                                <div className="space-y-2">
+  <Label
+    htmlFor="tts_voice"
+    className="text-sm font-medium text-gray-700 flex items-center"
+  >
+    Voz TTS
+  </Label>
+  <Select
+    value={formData.audio_item[0].tts_voice}
+    onValueChange={(value) =>
+      setFormData((prev) => ({
+        ...prev,
+        audio_item: [
+          {
+            ...prev.audio_item[0],
+            tts_voice: value,
+          },
+        ],
+      }))
+    }
+  >
+    <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+      <SelectValue placeholder="Selecciona voz TTS" />
+    </SelectTrigger>
+    <SelectContent>
+  {ttsVoices.map((voiceShortName) => (
+        <SelectItem key={voiceShortName} value={voiceShortName} className="cursor-pointer">
+          {voiceShortName}
+        </SelectItem>
+      ))}
+
+    </SelectContent>
+  </Select>
+</div>
+
                 </div>
+
+
+
+
 
                 {/* Additional Configuration */}
                 <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
