@@ -38,3 +38,28 @@ export const getVoiceModels = async () => {
     return [];
   }
 }
+
+export async function getMicrosoftVoices(): Promise<string[]> {
+  const response = await fetch(
+    "https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4"
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch Microsoft TTS voices");
+  }
+
+  const voices = await response.json();
+
+  const languagePrefixes = ["es", "es-", "ca", "en", "en-"];
+
+  // Solo devolver el ShortName (string)
+  const filteredVoices = voices
+    .filter((voice: any) =>
+      languagePrefixes.some((prefix) => voice.Locale?.startsWith(prefix))
+    )
+    .map((voice: any) => voice.ShortName);
+
+  return filteredVoices;
+}
+
+
