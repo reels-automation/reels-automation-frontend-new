@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/select"
 import { getOllamaModels } from "@/fetchs/data-frontend/data_frontend";
 import { getGameplays } from "@/fetchs/data-frontend/data_frontend";
+import { getVoiceModels } from "@/fetchs/data-frontend/data_frontend";
+
 interface CreateVideoPopUpProps {
   isOpen: boolean;
   closePopup: () => void;
@@ -30,16 +32,23 @@ interface CreateVideoPopUpProps {
 }
 
 const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup, closePopupMessage }) => {
+  
   type Gameplay = {
   name: string;
   url: string;
 }
+
+  type VoiceModel = {
+    personaje: string
+    idioma: string
+  }
 
 
   const { isLoggedIn } = useAuth();
   const  constanteMagica  = 100;
   const [gptModels, setGptModels] = useState<string[]>([]);
   const [gameplays, setGameplays] = useState<Gameplay[]>([])
+  const [voiceModels, setVoiceModels] = useState<VoiceModel[]>([])
   const [formData, setFormData] = useState({
     tema: "",
     usuario: "5e00feba-5118-4289-b465-878a4bb2ed58",
@@ -122,6 +131,36 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
     fetchGameplays()
   },[])
 
+  useEffect(() => {
+  const fetchVoiceModels = async () => {
+    try {
+      const data = await getVoiceModels();
+      setVoiceModels(data);
+      if (data.length > 0 && !formData.personaje) {
+        const first = data[0];
+        setFormData((prev) => ({
+          ...prev,
+          personaje: first.personaje,
+          idioma: first.idioma,
+          audio_item: [
+            {
+              ...prev.audio_item[0],
+              pth_voice: first.personaje,
+            },
+          ],
+        }));
+      }
+
+      console.log("voice models: ", data);
+    } catch (error) {
+      console.error("Error al cargar los voice models", error);
+    }
+  };
+
+  fetchVoiceModels();
+}, []);
+
+
   function getSubFromToken(): string  {
     try {
       const token = localStorage.getItem("authToken");
@@ -191,11 +230,6 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
   const idiomas = [
     { value: "es", label: "Español" },
     { value: "en", label: "English" },
-  ];
-
-  const personajes = [
-    { value: "homero", label: "Homero Simpson" },
-    { value: "peter_griffin", label: "Peter Griffin" },
   ];
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -418,56 +452,48 @@ const CreateVideoPopUp: React.FC<CreateVideoPopUpProps> = ({ isOpen, closePopup,
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="idioma" className="text-sm font-medium text-gray-700 flex items-center">
-                        <Globe className="mr-1 h-4 w-4" />
-                        Idioma
-                      </Label>
-                      <Select value={formData.idioma} onValueChange={(value) => changeIdioma(value)}>
-                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
-                          <SelectValue placeholder="Selecciona idioma"/>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {idiomas.map((idioma) => (
-                            <SelectItem key={idioma.value} value={idioma.value} className="cursor-pointer">
-                              {idioma.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+  <Label
+    htmlFor="personaje"
+    className="text-sm font-medium text-gray-700 flex items-center"
+  >
+    <User className="mr-1 h-4 w-4" />
+    Personaje
+  </Label>
+  <Select
+    value={`${formData.personaje}|${formData.idioma}`}
+    onValueChange={(value) => {
+      const [personaje, idioma] = value.split("|");
+      setFormData((prev) => ({
+        ...prev,
+        personaje,
+        idioma,
+        audio_item: [
+          {
+            ...prev.audio_item[0],
+            pth_voice: personaje,
+          },
+        ],
+      }));
+    }}
+  >
+    <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+      <SelectValue placeholder="Selecciona personaje" />
+    </SelectTrigger>
+    <SelectContent>
+      {voiceModels.map((model) => (
+        <SelectItem
+          key={`${model.personaje}|${model.idioma}`}
+          value={`${model.personaje}|${model.idioma}`}
+          className="cursor-pointer"
+        >
+          {model.personaje} ({model.idioma})
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+</div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="personaje" className="text-sm font-medium text-gray-700 flex items-center">
-                        <User className="mr-1 h-4 w-4" />
-                        Personaje
-                      </Label>
-                      <Select
-                        value={formData.personaje}
-                        onValueChange={(value) => {
-                          setFormData((prev) => ({
-                            ...prev,
-                            personaje: value,
-                            audio_item: [
-                              {
-                                ...prev.audio_item[0],
-                                pth_voice: value,
-                              },
-                            ],
-                          }));
-                        }}
-                      >
-                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
-                          <SelectValue placeholder="Selecciona personaje" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {personajes.map((personaje) => (
-                            <SelectItem key={personaje.value} value={personaje.value} className="cursor-pointer">
-                              {personaje.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+
 
                     <div className="space-y-2">
                       <Label htmlFor="gptmodel" className="text-sm font-medium text-gray-700">

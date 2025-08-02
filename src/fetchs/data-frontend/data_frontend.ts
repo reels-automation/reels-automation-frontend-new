@@ -19,7 +19,19 @@ export const getGameplays = async () => {
   console.log(endpoint)
   try {
     const response = await axios.get(endpoint);
-    console.log("Response: ", response)
+    return response.data;
+  } catch (err) {
+    console.error("Error al obtener los models:", err);
+    return [];
+  }
+}
+
+export const getVoiceModels = async () => {
+  const endpoint = `${API_URL}/voice-models`;
+
+  try {
+    const response = await axios.get(endpoint);
+    console.log("LOS VOICE MODELS ACA: ", response.data)
     return response.data;
   } catch (err) {
     console.error("Error al obtener los models:", err);
