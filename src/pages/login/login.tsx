@@ -128,6 +128,7 @@ const Login = () => {
                           <Input
                             id="password"
                             name="password"
+                            autoComplete="new-password"
                             type={showPassword ? "text" : "password"}
                             placeholder="Tu contraseña"
                             className="h-10 sm:h-12 px-3 sm:px-4 pr-10 sm:pr-12 text-sm sm:text-base border-gray-300 focus:border-green-500 focus:ring-green-500"
