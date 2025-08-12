@@ -20,7 +20,8 @@ const Login = () => {
   const [isError, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingIS, setIsLoadingIS] = useState(false)
+  const [isLoadingGO, setIsLoadingGO] = useState(false)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -28,7 +29,7 @@ const Login = () => {
   }, [isLoggedIn, navigate])
 
   const handleLogin = async (username: string, password: string) => {
-    setIsLoading(true)
+    setIsLoadingIS(true)
     try {
       const token = await loginPost("/login", username, password)
       console.log("Login success:", token)
@@ -45,7 +46,7 @@ const Login = () => {
         setErrorMessage("An unknown error occurred.")
       }
     } finally {
-      setIsLoading(false)
+      setIsLoadingIS(false)
     }
   }
 
@@ -58,6 +59,29 @@ const Login = () => {
 
     if (username && password) {
       await handleLogin(username, password)
+    }
+  }
+
+  // Función para manejar el login con Google
+  const handleGoogleLogin = async () => {
+    setIsLoadingGO(true)
+    setError(false)
+    setErrorMessage(null)
+    try {
+      // TODO: Replace with your real Google login API call
+      // Example: await googleLogin()
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+      throw new Error("Not implemented error!")
+      window.location.reload()
+    } catch (error: unknown) {
+      setError(true)
+      if (error instanceof Error) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage("Error al iniciar sesión con Google.")
+      }
+    } finally {
+      setIsLoadingGO(false)
     }
   }
 
@@ -115,16 +139,45 @@ const Login = () => {
 
                       <Button
                         type="submit"
-                        disabled={isLoading}
+                        disabled={isLoadingIS || isLoadingGO}
                         className="w-full h-10 sm:h-12 bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm sm:text-base mt-4 sm:mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        {isLoading ? (
+                        {isLoadingIS ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Iniciando sesión...
                           </>
                         ) : (
                           "Iniciar sesión"
+                        )}
+                      </Button>
+
+                      {/* Google Login Button */}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleGoogleLogin}
+                        disabled={isLoadingGO || isLoadingIS}
+                        className="w-full h-10 sm:h-12 bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
+                      >
+                        {isLoadingGO ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Continuando con Google...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="h-5 w-5" viewBox="0 0 48 48">
+                              <g>
+                                <path fill="#4285F4" d="M24 9.5c3.54 0 6.36 1.53 7.82 2.81l5.77-5.77C34.64 3.36 29.74 1 24 1 14.82 1 6.98 6.98 3.69 15.02l6.91 5.37C12.09 14.09 17.57 9.5 24 9.5z"/>
+                                <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.42c-.54 2.9-2.18 5.36-4.66 7.02l7.18 5.59C43.98 37.02 46.1 31.3 46.1 24.55z"/>
+                                <path fill="#FBBC05" d="M10.6 28.37a14.5 14.5 0 0 1 0-8.74l-6.91-5.37A23.99 23.99 0 0 0 1 24c0 3.82.92 7.44 2.69 10.63l6.91-5.37z"/>
+                                <path fill="#EA4335" d="M24 46c6.48 0 11.92-2.15 15.89-5.85l-7.18-5.59c-2 1.34-4.56 2.14-8.71 2.14-6.43 0-11.91-4.59-13.4-10.74l-6.91 5.37C6.98 41.02 14.82 46 24 46z"/>
+                                <path fill="none" d="M1 1h46v46H1z"/>
+                              </g>
+                            </svg>
+                            Continuar con Google
+                          </>
                         )}
                       </Button>
 
