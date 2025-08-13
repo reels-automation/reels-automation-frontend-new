@@ -118,8 +118,7 @@ const Login = () => {
                           className="h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                           required
                         />
-                      </div>
-
+                      </div>        
                       <div className="space-y-2">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                           Contraseña
