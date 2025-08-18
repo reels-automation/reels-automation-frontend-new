@@ -69,7 +69,7 @@ const Login = () => {
     setError(false)
     setErrorMessage(null)
     try {
-      const token = await loginGoogle("/auth/google/login")
+      const token = await loginGoogle()
       console.log("Login success:", token)
       setError(false)
       setErrorMessage(null)
