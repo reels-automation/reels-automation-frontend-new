@@ -13,6 +13,7 @@ import EyePassword from "@/components/eye_password/eye_password"
 import type React from "react"
 import HomeButton from "@/components/home_button/home_button"
 import { loginPost } from "../../fetchs/login/login-post"
+import { loginGoogle } from "@/fetchs/OAuth2/login"
 
 const Register = () => {
   const navigate = useNavigate()
@@ -77,17 +78,16 @@ const Register = () => {
     setError(false)
     setErrorMessage(null)
     try {
-      // TODO: Replace with your real Google login API call
-      // Example: await googleRegister()
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      throw new Error("Not implemented error!")
-      window.location.reload()
+      const token = await loginGoogle("/auth/google/login")
+      console.log("Login success:", token)
+      setError(false)
+      setErrorMessage(null)
     } catch (error: unknown) {
       setError(true)
       if (error instanceof Error) {
         setErrorMessage(error.message)
       } else {
-        setErrorMessage("Error al registrarse con Google.")
+        setErrorMessage("Error al iniciar sesión con Google.")
       }
     } finally {
       setIsLoadingGO(false)

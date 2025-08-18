@@ -12,6 +12,7 @@ import { AlertCircle, Loader2 } from "lucide-react"
 import EyePassword from "@/components/eye_password/eye_password"
 import type React from "react"
 import HomeButton from "@/components/home_button/home_button"
+import { loginGoogle } from "@/fetchs/OAuth2/login"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -68,11 +69,10 @@ const Login = () => {
     setError(false)
     setErrorMessage(null)
     try {
-      // TODO: Replace with your real Google login API call
-      // Example: await googleLogin()
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      throw new Error("Not implemented error!")
-      window.location.reload()
+      const token = await loginGoogle("/auth/google/login")
+      console.log("Login success:", token)
+      setError(false)
+      setErrorMessage(null)
     } catch (error: unknown) {
       setError(true)
       if (error instanceof Error) {
