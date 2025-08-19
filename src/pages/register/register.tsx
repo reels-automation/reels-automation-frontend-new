@@ -78,8 +78,8 @@ const Register = () => {
     setError(false)
     setErrorMessage(null)
     try {
-      const token = await loginGoogle()
-      console.log("Login success:", token)
+      await loginGoogle()
+      console.log("Google login success")
       setError(false)
       setErrorMessage(null)
     } catch (error: unknown) {
