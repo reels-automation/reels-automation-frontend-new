@@ -28,8 +28,52 @@ const Estadisticas = () => {
           throw new Error(`Error en la respuesta: ${res.status} ${res.statusText}`);
         }
         const json = await res.json();
-        // Asumimos que la respuesta es un array de { personaje, cantidad }
-        setData(json);
+        // Normalize response to CharacterCount[]
+        let normalized: CharacterCount[] = [];
+
+        // If it's already an array
+        if (Array.isArray(json)) {
+          normalized = json.map((item: any) => {
+            if (item && typeof item === "object") {
+              const personaje = item.personaje ?? item.name ?? item.personaje_name ?? item[0] ?? "Desconocido";
+              const cantidad = Number(item.cantidad ?? item.count ?? item.cantidad_videos ?? item[1] ?? 0) || 0;
+              return { personaje: String(personaje), cantidad };
+            }
+            // fallback for primitive entries
+            return { personaje: String(item), cantidad: 0 };
+          });
+        } else if (json && typeof json === "object") {
+          // If the response wraps the array in a property like { data: [...] }
+          const possibleArray = json.data ?? json.result ?? json.videos ?? json.items ?? null;
+          if (Array.isArray(possibleArray)) {
+            normalized = possibleArray.map((item: any) => {
+              const personaje = item.personaje ?? item.name ?? item.personaje_name ?? item[0] ?? "Desconocido";
+              const cantidad = Number(item.cantidad ?? item.count ?? item.cantidad_videos ?? item[1] ?? 0) || 0;
+              return { personaje: String(personaje), cantidad };
+            });
+          } else {
+            // If it's an object mapping personaje->count, e.g. { homero: 10, peter: 5 }
+            const keys = Object.keys(json);
+            // filter out common wrapper keys
+            const wrapperKeys = ["status", "ok", "message"];
+            const filtered = keys.filter((k) => !wrapperKeys.includes(k));
+            // if values are numbers, treat as mapping
+            const looksLikeMap = filtered.length > 0 && filtered.every((k) => typeof (json as any)[k] === "number" || !isNaN(Number((json as any)[k])));
+            if (looksLikeMap) {
+              normalized = filtered.map((k) => ({ personaje: k, cantidad: Number((json as any)[k] ?? 0) }));
+            } else {
+              // Last resort: empty
+              normalized = [];
+            }
+          }
+        } else {
+          normalized = [];
+        }
+
+        // Optionally sort by cantidad desc
+        normalized.sort((a, b) => b.cantidad - a.cantidad);
+        console.log("/videos-por-personaje -> normalized:", normalized);
+        setData(normalized);
       } catch (err: any) {
         console.error("Error fetching videos-por-personaje:", err);
         setError(err.message || "Error desconocido");
