@@ -21,10 +21,6 @@ const Estadisticas = () => {
   const [porIdioma, setPorIdioma] = useState<CountItem[]>([]);
   const [porGameplay, setPorGameplay] = useState<CountItem[]>([]);
   const [promedioPorUsuario, setPromedioPorUsuario] = useState<number | null>(null);
-  const [rangoInicio, setRangoInicio] = useState<string>("");
-  const [rangoFin, setRangoFin] = useState<string>("");
-  const [cantidadRango, setCantidadRango] = useState<number | null>(null);
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -79,33 +75,6 @@ const Estadisticas = () => {
     };
     fetchAll();
   }, []);
-
-  // Handler para el POST de rango de tiempo
-  const handleRangoSubmit = async () => {
-    if (!rangoInicio || !rangoFin) {
-      alert("Por favor selecciona ambas fechas de inicio y fin");
-      return;
-    }
-    try {
-      const res = await fetch(`${API_URL}/videos-por-rango-tiempo`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fecha_inicio: rangoInicio,
-          fecha_fin: rangoFin,
-        }),
-      });
-      if (!res.ok) {
-        throw new Error(`Error al consultar rango: ${res.status}`);
-      }
-      const json = await res.json();
-      const cantidad = Number(json.cantidad_videos ?? 0);
-      setCantidadRango(cantidad);
-    } catch(err: any) {
-      console.error("Error rango de tiempo:", err);
-      alert("Error al consultar el rango de tiempo");
-    }
-  };
 
   // Funcion para calcular maxCount para barra
   const computeMax = (arr: CountItem[]) => arr.length > 0 ? Math.max(...arr.map(d=>d.cantidad)) : 0;
