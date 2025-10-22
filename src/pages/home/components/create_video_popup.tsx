@@ -425,8 +425,6 @@ useEffect(() => {
                           : '¡Límite de constanteMagica caracteres alcanzado!'}
                       </p>
                     </div>
-
-
                   ) : (
                     <div className="space-y-2">
                       <Label htmlFor="script" className="text-sm font-medium text-gray-700">
@@ -445,59 +443,54 @@ useEffect(() => {
                     </div>
                   )}
                 </div>
-
                 {/* Video Configuration */}
                 <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                     <User className="mr-2 h-5 w-5 text-purple-600" />
                     Configuraciones de Video
                   </h3>
-                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-  <Label
-    htmlFor="personaje"
-    className="text-sm font-medium text-gray-700 flex items-center"
-  >
-    <User className="mr-1 h-4 w-4" />
-    Personaje
-  </Label>
-  <Select
-    value={`${formData.personaje}|${formData.idioma}`}
-    onValueChange={(value) => {
-      const [personaje, idioma] = value.split("|");
-      setFormData((prev) => ({
-        ...prev,
-        personaje,
-        idioma,
-        audio_item: [
-          {
-            ...prev.audio_item[0],
-            pth_voice: personaje,
-          },
-        ],
-      }));
-    }}
-  >
-    <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
-      <SelectValue placeholder="Selecciona personaje" />
-    </SelectTrigger>
-    <SelectContent>
-      {voiceModels.map((model) => (
-        <SelectItem
-          key={`${model.personaje}|${model.idioma}`}
-          value={`${model.personaje}|${model.idioma}`}
-          className="cursor-pointer"
-        >
-          {model.personaje} ({model.idioma})
-        </SelectItem>
-      ))}
-    </SelectContent>
-  </Select>
-</div>
-
-
-
+                      <Label
+                        htmlFor="personaje"
+                        className="text-sm font-medium text-gray-700 flex items-center"
+                      >
+                        <User className="mr-1 h-4 w-4" />
+                        Personaje
+                      </Label>
+                      <Select
+                        value={`${formData.personaje}|${formData.idioma}`}
+                        onValueChange={(value) => {
+                          const [personaje, idioma] = value.split("|");
+                          setFormData((prev) => ({
+                            ...prev,
+                            personaje,
+                            idioma,
+                            audio_item: [
+                              {
+                                ...prev.audio_item[0],
+                                pth_voice: personaje,
+                              },
+                            ],
+                          }));
+                        }}
+                      >
+                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+                          <SelectValue placeholder="Selecciona personaje" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {voiceModels.map((model) => (
+                            <SelectItem
+                              key={`${model.personaje}|${model.idioma}`}
+                              value={`${model.personaje}|${model.idioma}`}
+                              className="cursor-pointer"
+                            >
+                              {model.personaje} ({model.idioma})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <div className="space-y-2">
                       <Label htmlFor="gptmodel" className="text-sm font-medium text-gray-700">
                         Modelo GPT
@@ -516,47 +509,41 @@ useEffect(() => {
                       </Select>
                     </div>
                   </div>
-                                <div className="space-y-2">
-  <Label
-    htmlFor="tts_voice"
-    className="text-sm font-medium text-gray-700 flex items-center"
-  >
-    Voz TTS
-  </Label>
-  <Select
-    value={formData.audio_item[0].tts_voice}
-    onValueChange={(value) =>
-      setFormData((prev) => ({
-        ...prev,
-        audio_item: [
-          {
-            ...prev.audio_item[0],
-            tts_voice: value,
-          },
-        ],
-      }))
-    }
-  >
-    <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
-      <SelectValue placeholder="Selecciona voz TTS" />
-    </SelectTrigger>
-    <SelectContent>
-  {ttsVoices.map((voiceShortName) => (
-        <SelectItem key={voiceShortName} value={voiceShortName} className="cursor-pointer">
-          {voiceShortName}
-        </SelectItem>
-      ))}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="tts_voice"
+                      className="text-sm font-medium text-gray-700 flex items-center"
+                    >
+                      Voz TTS
+                    </Label>
+                    <Select
+                      value={formData.audio_item[0].tts_voice}
+                      onValueChange={(value) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          audio_item: [
+                            {
+                              ...prev.audio_item[0],
+                              tts_voice: value,
+                            },
+                          ],
+                        }))
+                      }
+                    >
+                      <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+                        <SelectValue placeholder="Selecciona voz TTS" />
+                      </SelectTrigger>
+                      <SelectContent>
+                    {ttsVoices.map((voiceShortName) => (
+                          <SelectItem key={voiceShortName} value={voiceShortName} className="cursor-pointer">
+                            {voiceShortName}
+                          </SelectItem>
+                        ))}
 
-    </SelectContent>
-  </Select>
-</div>
-
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-
-
-
-
-
                 {/* Additional Configuration */}
                 <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
@@ -568,47 +555,43 @@ useEffect(() => {
                     <div className="space-y-2">
                       
                       <Label htmlFor="gameplay" className="text-sm font-medium text-gray-700">
-  Gameplay
-</Label>
-<Select value={formData.gameplay_name} onValueChange={(value) => setFormData({ ...formData, gameplay_name: value })}>
-  <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
-    <SelectValue placeholder="Selecciona gameplay" />
-  </SelectTrigger>
-  <SelectContent>
-    {gameplays.map((gameplay) => (
-      <SelectItem
-        key={gameplay.name}
-        value={gameplay.name}
-        className="cursor-pointer"
-      >
-        {gameplay.name}
-      </SelectItem>
-    ))}
-  </SelectContent>
-</Select>
-
-{formData.gameplay_name && (
-  <div className="mt-2 p-3 border rounded-lg bg-gray-50 shadow-sm">
-    <p className="text-sm font-semibold mb-3 text-gray-700">Preview del Gameplay:</p>
-    {(() => {
-      const selectedGameplay = gameplays.find(g => g.name === formData.gameplay_name);
-      if (!selectedGameplay) return <p className="text-gray-500">No se encontró el gameplay.</p>;
-      return (
-        <video
-          src={selectedGameplay.url}
-          controls
-          className="w-full rounded-lg border border-gray-300 shadow-md aspect-[16/9]"
-          preload="metadata"
-        >
-          Tu navegador no soporta la reproducción de video.
-        </video>
-      );
-    })()}
-  </div>
-)}
-
-
-
+                        Gameplay
+                      </Label>
+                      <Select value={formData.gameplay_name} onValueChange={(value) => setFormData({ ...formData, gameplay_name: value })}>
+                        <SelectTrigger className="h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500 cursor-pointer">
+                          <SelectValue placeholder="Selecciona gameplay" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {gameplays.map((gameplay) => (
+                            <SelectItem
+                              key={gameplay.name}
+                              value={gameplay.name}
+                              className="cursor-pointer"
+                            >
+                              {gameplay.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    {formData.gameplay_name && (
+                      <div className="mt-2 p-3 border rounded-lg bg-gray-50 shadow-sm">
+                        <p className="text-sm font-semibold mb-3 text-gray-700">Preview del Gameplay:</p>
+                        {(() => {
+                          const selectedGameplay = gameplays.find(g => g.name === formData.gameplay_name);
+                          if (!selectedGameplay) return <p className="text-gray-500">No se encontró el gameplay.</p>;
+                          return (
+                            <video
+                              src={selectedGameplay.url}
+                              controls
+                              className="w-full rounded-lg border border-gray-300 shadow-md aspect-[16/9]"
+                              preload="metadata"
+                            >
+                              Tu navegador no soporta la reproducción de video.
+                            </video>
+                          );
+                        })()}
+                      </div>
+                    )}
                     </div>
                     
                     <div className="space-y-2">
