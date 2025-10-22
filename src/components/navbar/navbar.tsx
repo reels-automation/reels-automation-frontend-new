@@ -54,6 +54,12 @@ const Navbar = () => {
                   >
                     Mis Videos
                   </Link>
+                  <Link
+                    to="/estadisticas"
+                    className="text-white hover:text-purple-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
+                  >
+                    Estadísticas
+                  </Link>
                   <Button
                     onClick={handleLogout}
                     variant="ghost"
@@ -125,6 +131,13 @@ const Navbar = () => {
                   >
                     <User className="h-4 w-4 mr-2 inline" />
                     Mis Videos
+                  </Link>
+                  <Link
+                    to="/estadisticas"
+                    className="text-white hover:text-purple-200 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Estadísticas
                   </Link>
                   <button
                     onClick={handleLogout}
