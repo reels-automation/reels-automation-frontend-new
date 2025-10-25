@@ -20,6 +20,7 @@ const Estadisticas = () => {
   const [porPersonaje, setPorPersonaje] = useState<CountItem[]>([]);
   const [porIdioma, setPorIdioma] = useState<CountItem[]>([]);
   const [porGameplay, setPorGameplay] = useState<CountItem[]>([]);
+  const [porFecha, setPorFecha] = useState<CountItem[]>([]); // <--- nuevo estado
   const [promedioPorUsuario, setPromedioPorUsuario] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,14 +31,15 @@ const Estadisticas = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const [res1, res2, res3, res4] = await Promise.all([
+        const [res1, res2, res3, res4, res5] = await Promise.all([
           fetch(`${API_URL}/videos-por-personaje`, { method: "GET", headers:{ "Content-Type":"application/json"} }),
           fetch(`${API_URL}/videos-por-idioma`, { method: "GET", headers:{ "Content-Type":"application/json"} }),
           fetch(`${API_URL}/videos-por-gameplay`, { method: "GET", headers:{ "Content-Type":"application/json"} }),
           fetch(`${API_URL}/promedio-videos-por-usuario`, { method: "GET", headers:{ "Content-Type":"application/json"} }),
+          fetch(`${API_URL}/videos-por-fecha`, { method: "GET", headers:{ "Content-Type":"application/json"} }), // <--- nuevo fetch
         ]);
 
-        if (!res1.ok || !res2.ok || !res3.ok || !res4.ok) {
+        if (!res1.ok || !res2.ok || !res3.ok || !res4.ok || !res5.ok) {
           throw new Error(`Uno de los endpoints devolvió error`);
         }
 
@@ -45,6 +47,7 @@ const Estadisticas = () => {
         const json2 = await res2.json();
         const json3 = await res3.json();
         const json4 = await res4.json();
+        const json5 = await res5.json(); // <--- nuevo json
 
         const norm1: CountItem[] = (json1.data ?? []).map((item: any) => ({
           label: String(item._id ?? "Desconocido"),
@@ -58,10 +61,15 @@ const Estadisticas = () => {
           label: String(item._id ?? "Desconocido"),
           cantidad: Number(item.cantidad ?? 0),
         }));
+        const norm5: CountItem[] = (json5.data ?? []).map((item: any) => ({
+          label: String(item._id ?? "Desconocido"),
+          cantidad: Number(item.cantidad ?? 0),
+        }));
 
         setPorPersonaje(norm1.sort((a,b)=>b.cantidad - a.cantidad));
         setPorIdioma(norm2.sort((a,b)=>b.cantidad - a.cantidad));
         setPorGameplay(norm3.sort((a,b)=>b.cantidad - a.cantidad));
+        setPorFecha(norm5.sort((a,b)=>b.cantidad - a.cantidad)); // <--- seteo del nuevo estado
 
         const prom = Number(json4.promedio_videos_por_usuario ?? 0);
         setPromedioPorUsuario(prom);
@@ -144,9 +152,6 @@ const Estadisticas = () => {
                       </div>
                     );
                   })}
-                  <div className="flex justify-end">
-                    
-                  </div>
                 </div>
               )}
             </CardContent>
@@ -233,15 +238,55 @@ const Estadisticas = () => {
                       </tbody>
                     </table>
                   </div>
-                  <div className="flex justify-end">
-                    
-                  </div>
                 </div>
               )}
             </CardContent>
           </Card>
-        </div>
 
+          {/* Videos por fecha */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Videos por fecha</CardTitle>
+              <CardDescription>
+                Cantidad de videos creados por cada fecha (ignora registros sin fecha)
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mb-4"></div>
+                  <p className="text-gray-600">Cargando...</p>
+                </div>
+              ) : error ? (
+                <div className="text-red-600">{error}</div>
+              ) : porFecha.length === 0 ? (
+                <div className="text-gray-600">No hay datos.</div>
+              ) : (
+                <div className="space-y-4">
+                  {porFecha.map(item => {
+                    const maxCount = computeMax(porFecha);
+                    const width = maxCount > 0 ? (item.cantidad / maxCount) * 100 : 0;
+                    return (
+                      <div key={item.label} className="mb-3">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-medium text-gray-700">{item.label}</span>
+                          <span className="text-sm text-gray-500">{item.cantidad}</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div
+                            className="bg-green-600 h-3 rounded-full transition-all duration-300"
+                            style={{ width: `${width}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+        </div>
       </main>
 
       <Footer />
