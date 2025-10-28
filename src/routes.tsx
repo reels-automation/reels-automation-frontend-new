@@ -8,6 +8,7 @@ import MisVideos from "./pages/mis_videos/mis_videos";
 import NotGuestRoute from "./context/protected_routes/protectedRoute";
 import Guest from "./pages/guest/guest";
 import Estadisticas from "./pages/estadisticas/estadisticas";
+import VideosStatus from "./pages/estadisticas/VideosStatus";
 
 function RoutesManager() {
   return (
@@ -19,6 +20,7 @@ function RoutesManager() {
         <Route path="/create-video" element={<VideoSubmissionForm />} />
         <Route path="/mis-videos" element={<MisVideos />} />
         <Route path="/estadisticas" element={<Estadisticas />} />
+        <Route path="/videos-status" element={<VideosStatus />} />
         <Route path="/profile" element={<UserProfile />} />
       </Route>
 

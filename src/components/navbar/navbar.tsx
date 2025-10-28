@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, User, LogOut, Home } from "lucide-react";
+import { Menu, X, User, LogOut, Home, Video } from "lucide-react";
 
 const Navbar = () => {
   const { isLoggedIn, logout, user } = useAuth();
@@ -59,6 +59,13 @@ const Navbar = () => {
                     className="text-white hover:text-purple-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
                   >
                     Estadísticas
+                  </Link>
+                  <Link
+                    to="/videos-status"
+                    className="text-white hover:text-amber-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center"
+                  >
+                    <Video className="h-4 w-4 mr-1" />
+                    Estados de Videos
                   </Link>
                   <Button
                     onClick={handleLogout}
@@ -138,6 +145,14 @@ const Navbar = () => {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Estadísticas
+                  </Link>
+                  <Link
+                    to="/videos-status"
+                    className="text-white hover:text-amber-500 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Video className="h-4 w-4 mr-2 inline" />
+                    Estados de Videos
                   </Link>
                   <button
                     onClick={handleLogout}
